@@ -1,4 +1,4 @@
-# Segfault-Squad 🚀
+# Udavit 🚀
 
 A native mobile application built with React Native, featuring AI-powered capabilities through Hugging Face Transformers and a robust backend infrastructure.
 
@@ -35,7 +35,7 @@ A native mobile application built with React Native, featuring AI-powered capabi
 ### Prerequisites
 - Node.js (v16 or higher)
 - React Native CLI
-- Python 3.8+
+- Python 3
 - Firebase CLI
 - Android Studio / Xcode (for mobile development)
 
@@ -43,8 +43,8 @@ A native mobile application built with React Native, featuring AI-powered capabi
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/Segfault-Squad.git
-   cd Segfault-Squad
+   git clone https://github.com/your-username/Udavit.git
+   cd Udavit
    ```
 
 2. **Install frontend dependencies**
@@ -99,7 +99,7 @@ uvicorn main:app --reload
 ## 🏗️ Project Structure
 
 ```
-Segfault-Squad/
+Udavit/
 ├── app/                    # React Native app screens and navigation
 ├── components/            # Reusable React Native components
 ├── constants/             # App constants and configuration
@@ -188,4 +188,4 @@ If you encounter any issues or have questions:
 
 ---
 
-**Built with ❤️ by the Segfault-Squad team**
+**Built with ❤️ by the Udavit team**
