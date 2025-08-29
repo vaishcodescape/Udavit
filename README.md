@@ -149,6 +149,7 @@ Udavit is a comprehensive platform that enables:
 - Node.js (v16 or higher)
 - React Native CLI
 - Python 3
+- Fast-API
 - Firebase CLI
 - Android Studio / Xcode (for mobile development)
 - Solidity compiler (for smart contracts)
