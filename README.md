@@ -33,7 +33,6 @@ Udavit is a comprehensive platform that enables:
 
 ### Backend & APIs
 
-- **Node.js** - Primary backend server
 - **FastAPI (Python)** - LLM integration and specialized services
 - **RESTful APIs** - Secure endpoints for all platform operations
 
@@ -46,13 +45,11 @@ Udavit is a comprehensive platform that enables:
 ### AI/ML Integration
 
 - **Hugging Face Transformers** - Local LLM models for project evaluation
-- **OpenAI GPT** - Alternative LLM API integration
 - **Automated Scoring** - Feasibility, innovation, and environmental impact assessment
 
 ### Database
 
 - **Firebase NoSQL** - Primary database for real-time data
-- **PostgreSQL/MongoDB** - Additional database options for specific use cases
 
 ### Blockchain & Smart Contracts
 
@@ -68,14 +65,14 @@ Udavit is a comprehensive platform that enables:
 
 ## 🔧 Features Breakdown
 
-### A. User Management
+### User Management
 
 - **Multi-role Access**: Startups, government officials, auditors, banks
 - **Role-specific Dashboards**: Customized interfaces per user type
 - **KYC Verification**: Secure document upload and verification
 - **Signup/Login**: Firebase Auth with role-based permissions
 
-### B. Subsidy Application & Idea Submission
+### Subsidy Application & Idea Submission
 
 - **Project Submission Forms**: Detailed project details, milestones, and production estimates
 - **LLM-powered Evaluation**: Automatic scoring based on:
@@ -84,48 +81,48 @@ Udavit is a comprehensive platform that enables:
   - Environmental impact analysis
 - **Point-based System**: Criteria-based scoring for subsidy eligibility
 
-### C. Milestone Tracking
+### Milestone Tracking
 
 - **Progress Monitoring**: Automatic and manual milestone tracking
 - **Real-time Data Integration**: IoT API and CSV upload support
 - **Verification System**: Automated and manual milestone verification
 - **Point Allocation**: Points awarded upon verified completion
 
-### D. Smart Contract Integration
+### Smart Contract Integration
 
 - **Automated Payments**: Trigger subsidy disbursement when milestones are met
 - **Conditional Logic**: Smart contract conditions for payment release
 - **Audit Trail**: Immutable blockchain records of all transactions
 - **Transparency**: Public verification of payment logs
 
-### E. AI-Powered Feedback System
+### AI-Powered Feedback System
 
 - **Project Evaluation**: LLM analysis of startup submissions
 - **Milestone Assessment**: Automated proof verification and scoring
 - **Fraud Detection**: AI-powered anomaly detection
 - **Continuous Learning**: Model improvement through feedback
 
-### F. Secure Payment & Banking
+### Secure Payment & Banking
 
 - **Multi-channel Payments**: Traditional banking and cryptocurrency support
 - **Transaction Logging**: Comprehensive payment audit trails
 - **Bank Integration**: Direct API connections for subsidy transfers
 
-### G. Dashboard & Analytics
+### Dashboard & Analytics
 
 - **Visual Analytics**: Charts and graphs for key metrics
 - **Real-time Updates**: Live data on subsidies, milestones, and progress
 - **Audit Logs**: Comprehensive tracking for government officials
 - **Performance Metrics**: Startup and project performance indicators
 
-### H. Notifications & Alerts
+### Notifications & Alerts
 
 - **Push Notifications**: Real-time updates for all users
 - **Milestone Alerts**: Progress notifications for startups
 - **Approval Reminders**: Pending action notifications for officials
 - **Payment Confirmations**: Transaction status updates
 
-### I. Security Features
+### Security Features
 
 - **Role-based Access Control**: Granular permissions per user type
 - **Data Encryption**: End-to-end security for sensitive information
@@ -262,26 +259,6 @@ CONTRACT_ADDRESS=your_contract_address
 # Payment Gateway Configuration
 RAZORPAY_KEY_ID=your_razorpay_key
 RAZORPAY_KEY_SECRET=your_razorpay_secret
-```
-
-## 📚 API Documentation
-
-Once the backend is running, visit:
-
-- **Swagger UI**: `http://localhost:8000/docs`
-- **ReDoc**: `http://localhost:8000/redoc`
-
-## 🧪 Testing
-
-```bash
-# Frontend tests
-npm test
-
-# Backend tests
-pytest
-
-# Smart contract tests
-npx hardhat test
 ```
 
 ## 🚀 Deployment
