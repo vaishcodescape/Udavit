@@ -2,7 +2,7 @@
 
 **Green Hydrogen Subsidy Disbursement via Smart Contracts**
 
-A mobile-first platform that revolutionizes government subsidy distribution for green hydrogen startups through blockchain technology, AI-powered evaluation, and automated milestone tracking.
+A native mobile-first platform that revolutionizes government subsidy distribution for green hydrogen startups through blockchain technology, AI-powered evaluation, and automated milestone tracking.
 
 ## 🎯 Project Overview
 
