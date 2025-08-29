@@ -190,4 +190,4 @@ If you encounter any issues or have questions:
 
 ---
 
-**Built with ❤️ by the Udavit team**
+**Built with ❤️ by the Segfault Squad team**
