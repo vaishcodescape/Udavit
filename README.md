@@ -35,7 +35,7 @@ A native mobile application built with React Native, featuring AI-powered capabi
 ### Prerequisites
 - Node.js (v16 or higher)
 - React Native CLI
-- Python 3.8+
+- Python 3
 - Firebase CLI
 - Android Studio / Xcode (for mobile development)
 
