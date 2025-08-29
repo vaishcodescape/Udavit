@@ -1,4 +1,4 @@
-# Segfault-Squad 🚀
+# Udavit 🚀
 
 A native mobile application built with React Native, featuring AI-powered capabilities through Hugging Face Transformers and a robust backend infrastructure.
 
@@ -35,7 +35,8 @@ A native mobile application built with React Native, featuring AI-powered capabi
 ### Prerequisites
 - Node.js (v16 or higher)
 - React Native CLI
-- Python 3.8+
+- Python
+- Fast-API
 - Firebase CLI
 - Android Studio / Xcode (for mobile development)
 
