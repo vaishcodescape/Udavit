@@ -168,21 +168,6 @@ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
 ## 📄 License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-If you encounter any issues or have questions:
-- Create an issue in the GitHub repository
-- Check the documentation in the `docs/` folder
-- Review the API documentation at `/docs` endpoint
-
-## 🙏 Acknowledgments
-
-- React Native community for the excellent framework
-- Firebase team for robust backend services
-- Hugging Face for state-of-the-art AI models
-- FastAPI creators for the high-performance backend framework
-
 ---
 
-**Built with ❤️ by the Udavit team**
+**Built with ❤️ by the Segfault Squad team**
