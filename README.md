@@ -267,19 +267,7 @@ RAZORPAY_KEY_SECRET=your_razorpay_secret
 
 - **iOS**: Build and deploy through Xcode
 - **Android**: Generate APK/AAB through Android Studio
-
-### Backend
-
-```bash
-gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
-```
-
-### Smart Contracts
-
-```bash
-npx hardhat deploy --network mainnet
-```
-
+- 
 ## 🤝 Contributing
 
 1. Fork the repository
