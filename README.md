@@ -2,7 +2,7 @@
 
 A native mobile application built with React Native, featuring AI-powered capabilities through Hugging Face Transformers and a robust backend infrastructure.
 
-## 🏗️ Tech Stack
+## 🏗️ Tech Stack (Tentative)
 
 ### Frontend
 - **React Native** - JavaScript library for building native mobile applications
@@ -29,6 +29,8 @@ A native mobile application built with React Native, featuring AI-powered capabi
 - **Firebase NoSQL** - Scalable cloud database
 - Real-time data synchronization
 - Offline support and data persistence
+
+> **Note:** This tech stack is tentative and may be subject to change during development based on project requirements and technical considerations.
 
 ## 🚀 Getting Started
 
@@ -170,7 +172,7 @@ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
