@@ -1,2 +1,2 @@
 # Segfault-Squad
-Project for HackOut Hackathon
+Project for the HackOut'25 Hackathon
