@@ -54,9 +54,8 @@ A native mobile application built with React Native, featuring AI-powered capabi
    npm install
    ```
 
-3. **Install backend dependencies**
+3. **Install Python dependencies**
    ```bash
-   cd backend
    pip install -r requirements.txt
    ```
 
@@ -86,7 +85,6 @@ npx react-native run-android
 
 #### Backend (FastAPI)
 ```bash
-cd backend
 uvicorn main:app --reload
 ```
 
@@ -106,7 +104,6 @@ Udavit/
 ├── components/            # Reusable React Native components
 ├── constants/             # App constants and configuration
 ├── hooks/                 # Custom React hooks
-├── backend/               # FastAPI backend server
 ├── assets/                # Images, fonts, and static assets
 └── docs/                  # Project documentation
 ```
@@ -146,7 +143,6 @@ Once the backend is running, visit:
 npm test
 
 # Backend tests
-cd backend
 pytest
 ```
 
@@ -158,7 +154,6 @@ pytest
 
 ### Backend
 ```bash
-cd backend
 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
 ```
 
