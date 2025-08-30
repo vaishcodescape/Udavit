@@ -3,8 +3,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Leaf } from 'lucide-react-native';
 import { useEffect, useRef } from 'react';
-import { RootStackParamList } from '../App';
-
 import {
   Animated,
   Dimensions,
@@ -12,8 +10,9 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
-  View,
+  View
 } from 'react-native';
+import { RootStackParamList } from '../App';
 
 
  
@@ -29,6 +28,7 @@ const WelcomeScreen = () => {
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const titleFadeAnim = useRef(new Animated.Value(0)).current;
   const subtitleFadeAnim = useRef(new Animated.Value(0)).current;
+  const buttonScale = useRef(new Animated.Value(1)).current;
 
   // Floating particles animation values
   const particle1 = useRef(new Animated.Value(0)).current;
@@ -147,6 +147,54 @@ const WelcomeScreen = () => {
         }),
       ])
     ).start();
+  };
+
+  const handleButtonPressIn = () => {
+    Animated.spring(buttonScale, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleButtonPressOut = () => {
+    Animated.spring(buttonScale, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleGetStarted = () => {
+    // Add a nice scale bounce effect
+    Animated.sequence([
+      Animated.spring(buttonScale, {
+        toValue: 0.9,
+        useNativeDriver: true,
+      }),
+      Animated.spring(buttonScale, {
+        toValue: 1.05,
+        useNativeDriver: true,
+      }),
+      Animated.spring(buttonScale, {
+        toValue: 1,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    
+    // Add haptic feedback if available
+    try {
+      // Light impact feedback
+      if (typeof window !== 'undefined') {
+        // For web, we can add a simple vibration
+        navigator?.vibrate?.(50);
+      }
+    } catch (error) {
+      // Silently fail if haptics not available
+    }
+    
+    // Navigate after a short delay to show the animation
+    setTimeout(() => {
+      navigation.navigate('OnBoarding');
+    }, 200);
   };
 
   return (
@@ -361,7 +409,7 @@ const WelcomeScreen = () => {
                }}
              >
                <Pressable
-                 onPress={() => navigation.navigate('OnBoarding')}
+                 onPress={handleGetStarted}
                  style={{
                    backgroundColor: '#22577a',
                    paddingVertical: 16,
