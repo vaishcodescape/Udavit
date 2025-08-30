@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< HEAD
-=======
 
 @layer base {
   :root {
@@ -43,4 +41,3 @@
     --color-popover-foreground: #FFFFFF;
   }
 }
->>>>>>> 0892c35552117fda14cfd94cc6ae8e3bbd5daca7
