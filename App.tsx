@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -30,7 +30,7 @@ export type RootStackParamList = {
   NotificationsCenter: undefined;
 };
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -40,7 +40,7 @@ export default function App() {
           initialRouteName="Splash"
           screenOptions={{
             headerShown: false,
-            cardStyle: { backgroundColor: 'transparent' },
+            contentStyle: { backgroundColor: 'transparent' },
           }}
         >
           <Stack.Screen name="Splash" component={SplashScreen} />

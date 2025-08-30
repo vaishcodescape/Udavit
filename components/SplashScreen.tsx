@@ -1,12 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Leaf } from 'lucide-react-native';
 import { useEffect, useRef } from 'react';
 import { Animated, SafeAreaView, View } from 'react-native';
 import { RootStackParamList } from '../App';
 
 const SplashScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;

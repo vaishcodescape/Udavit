@@ -1,78 +1,92 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ChevronDown } from 'lucide-react-native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Eye, EyeOff } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, SafeAreaView, ScrollView, Text, TextInput, View } from 'react-native';
+import { Animated, Modal, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { RootStackParamList } from '../App';
 
+
 const LoginSignupScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [activeTab, setActiveTab] = useState('login');
   
   // Form state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('');
   const [startup, setStartup] = useState('');
-  const [showRoleDropdown, setShowRoleDropdown] = useState(false);
-  const [showStartupDropdown, setShowStartupDropdown] = useState(false);
   
-  // Role and startup options
-  const roleOptions = [
-    'Chemical Engineer',
-    'Process Engineer',
-    'Research Scientist',
-    'Laboratory Technician',
-    'Quality Control Specialist',
-    'Safety Engineer',
-    'Environmental Engineer',
-    'Production Manager',
-    'Plant Operator',
-    'Analytical Chemist',
-    'Catalyst Specialist',
-    'Electrolysis Engineer',
-    'Hydrogen Storage Expert',
-    'Fuel Cell Engineer',
-    'Chemical Plant Manager',
-    'R&D Director',
-    'Technical Sales Representative',
-    'Regulatory Affairs Specialist',
-    'Sustainability Consultant',
-    'Other'
-  ];
+  // Dropdown state
+  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
+  const [startupDropdownOpen, setStartupDropdownOpen] = useState(false);
   
-  const startupOptions = [
-    'Hydrogen Production & Storage',
-    'Electrolysis Technology',
-    'Fuel Cell Development',
-    'Chemical Manufacturing',
-    'Green Hydrogen Solutions',
-    'Industrial Gas Production',
-    'Catalyst Development',
-    'Chemical Process Optimization',
-    'Hydrogen Infrastructure',
-    'Carbon Capture & Utilization',
-    'Renewable Energy Integration',
-    'Chemical Safety & Compliance',
-    'Sustainable Chemical Processes',
-    'Hydrogen Transportation',
-    'Chemical Analytics & Testing',
-    'Industrial Automation',
-    'Chemical Waste Management',
-    'Green Chemistry Solutions',
-    'Other'
-  ];
-  
-  // Filtered options for search
+  // Search state
   const [roleSearch, setRoleSearch] = useState('');
   const [startupSearch, setStartupSearch] = useState('');
   
+  // Close dropdowns when switching tabs
+  useEffect(() => {
+    setRoleDropdownOpen(false);
+    setStartupDropdownOpen(false);
+    setRoleSearch('');
+    setStartupSearch('');
+  }, [activeTab]);
+
+  
+  // Role and startup options
+  const roleOptions = [
+    { label: 'Chemical Engineer', value: 'Chemical Engineer' },
+    { label: 'Process Engineer', value: 'Process Engineer' },
+    { label: 'Research Scientist', value: 'Research Scientist' },
+    { label: 'Laboratory Technician', value: 'Laboratory Technician' },
+    { label: 'Quality Control Specialist', value: 'Quality Control Specialist' },
+    { label: 'Safety Engineer', value: 'Safety Engineer' },
+    { label: 'Environmental Engineer', value: 'Environmental Engineer' },
+    { label: 'Production Manager', value: 'Production Manager' },
+    { label: 'Plant Operator', value: 'Plant Operator' },
+    { label: 'Analytical Chemist', value: 'Analytical Chemist' },
+    { label: 'Catalyst Specialist', value: 'Catalyst Specialist' },
+    { label: 'Electrolysis Engineer', value: 'Electrolysis Engineer' },
+    { label: 'Hydrogen Storage Expert', value: 'Hydrogen Storage Expert' },
+    { label: 'Fuel Cell Engineer', value: 'Fuel Cell Engineer' },
+    { label: 'Chemical Plant Manager', value: 'Chemical Plant Manager' },
+    { label: 'R&D Director', value: 'R&D Director' },
+    { label: 'Technical Sales Representative', value: 'Technical Sales Representative' },
+    { label: 'Regulatory Affairs Specialist', value: 'Regulatory Affairs Specialist' },
+    { label: 'Sustainability Consultant', value: 'Sustainability Consultant' },
+    { label: 'Other', value: 'Other' }
+  ];
+  
+  const startupOptions = [
+    { label: 'Hydrogen Production & Storage', value: 'Hydrogen Production & Storage' },
+    { label: 'Electrolysis Technology', value: 'Electrolysis Technology' },
+    { label: 'Fuel Cell Development', value: 'Fuel Cell Development' },
+    { label: 'Chemical Manufacturing', value: 'Chemical Manufacturing' },
+    { label: 'Green Hydrogen Solutions', value: 'Green Hydrogen Solutions' },
+    { label: 'Industrial Gas Production', value: 'Industrial Gas Production' },
+    { label: 'Catalyst Development', value: 'Catalyst Development' },
+    { label: 'Chemical Process Optimization', value: 'Chemical Process Optimization' },
+    { label: 'Hydrogen Infrastructure', value: 'Hydrogen Infrastructure' },
+    { label: 'Carbon Capture & Utilization', value: 'Carbon Capture & Utilization' },
+    { label: 'Renewable Energy Integration', value: 'Renewable Energy Integration' },
+    { label: 'Chemical Safety & Compliance', value: 'Chemical Safety & Compliance' },
+    { label: 'Sustainable Chemical Processes', value: 'Sustainable Chemical Processes' },
+    { label: 'Hydrogen Transportation', value: 'Hydrogen Transportation' },
+    { label: 'Chemical Analytics & Testing', value: 'Chemical Analytics & Testing' },
+    { label: 'Industrial Automation', value: 'Industrial Automation' },
+    { label: 'Chemical Waste Management', value: 'Chemical Waste Management' },
+    { label: 'Green Chemistry Solutions', value: 'Green Chemistry Solutions' },
+    { label: 'Other', value: 'Other' }
+  ];
+  
+  // Filtered options based on search
   const filteredRoleOptions = roleOptions.filter(option =>
-    option.toLowerCase().includes(roleSearch.toLowerCase())
+    option.label.toLowerCase().includes(roleSearch.toLowerCase())
   );
   
   const filteredStartupOptions = startupOptions.filter(option =>
-    option.toLowerCase().includes(startupSearch.toLowerCase())
+    option.label.toLowerCase().includes(startupSearch.toLowerCase())
   );
   
   // Animation values
@@ -129,54 +143,50 @@ const LoginSignupScreen = () => {
     ).start();
   }, []);
   
-  // Close dropdowns when clicking outside
-  const closeDropdowns = () => {
-    setShowRoleDropdown(false);
-    setShowStartupDropdown(false);
-    setRoleSearch('');
-    setStartupSearch('');
-  };
-  
-  // Handle tab switching with animations
+    // Handle tab switching with animations
   const handleTabSwitch = (newTab: string) => {
     if (newTab === activeTab) return;
     
-    // Animate tab transition
+    // Reset form when switching tabs
+    setEmail('');
+    setPassword('');
+    setRole('');
+    setStartup('');
+    
+    // Animate tab switch
     Animated.parallel([
+      Animated.timing(tabSlideAnim, {
+        toValue: newTab === 'signup' ? 1 : 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
       Animated.timing(tabScaleAnim, {
         toValue: 0.95,
         duration: 150,
         useNativeDriver: true,
       }),
       Animated.timing(formSlideAnim, {
-        toValue: newTab === 'signup' ? -20 : 20,
-        duration: 200,
+        toValue: newTab === 'signup' ? 1 : 0,
+        duration: 400,
         useNativeDriver: true,
       }),
     ]).start(() => {
-      // Change tab
       setActiveTab(newTab);
-      
-      // Reset form position and animate back
-      Animated.parallel([
-        Animated.timing(tabScaleAnim, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.timing(formSlideAnim, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-      ]).start();
+      // Reset scale animation
+      Animated.timing(tabScaleAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }).start();
     });
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: '#d1fae5' }}>
-        {/* No overlay - dropdowns will close on outside press */}
+      <View 
+        style={{ flex: 1, backgroundColor: '#d1fae5' }}
+      >
+
         {/* Header */}
         <Animated.View 
           style={{ 
@@ -204,7 +214,8 @@ const LoginSignupScreen = () => {
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.1,
             shadowRadius: 4,
-            elevation: 3
+            elevation: 3,
+            zIndex: 10
           }}
         >
           <Pressable 
@@ -276,10 +287,13 @@ const LoginSignupScreen = () => {
           </Pressable>
         </Animated.View>
 
-                {/* Form Content */}
-        <Pressable 
-          onPress={closeDropdowns}
-          style={{ flex: 1 }}
+        {/* Form Content */}
+        <ScrollView 
+          style={{ flex: 1, zIndex: 5 }}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          nestedScrollEnabled={true}
+          contentContainerStyle={{ paddingBottom: 140 }}
         >
           <Animated.View 
             style={{ 
@@ -289,7 +303,8 @@ const LoginSignupScreen = () => {
                 { translateY: slideAnim },
                 { translateX: formSlideAnim },
                 { scale: tabScaleAnim }
-              ]
+              ],
+              zIndex: 5
             }}
           >
             {/* Form Progress Indicator - Only show for signup */}
@@ -331,379 +346,449 @@ const LoginSignupScreen = () => {
                 </Text>
               </View>
             )}
-          {/* Email Input */}
-          <View style={{ marginBottom: 24 }}>
-            <Text style={{
-              fontSize: 16,
-              color: '#065f46',
-              fontWeight: '500',
-              marginBottom: 8
-            }}>
-              Email
-            </Text>
-            <TextInput
-              style={{
-                height: 50,
-                backgroundColor: '#ffffff',
-                borderRadius: 8,
-                borderWidth: 1,
-                borderColor: email ? '#10b981' : '#e5e7eb',
-                paddingHorizontal: 16,
-                color: '#065f46',
-                fontSize: 16
-              }}
-              placeholder="Enter your email"
-              placeholderTextColor="#6b7280"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
 
-          {/* Password Input */}
-          <View style={{ marginBottom: 24 }}>
-            <Text style={{
-              fontSize: 16,
-              color: '#065f46',
-              fontWeight: '500',
-              marginBottom: 8
-            }}>
-              Password
-            </Text>
-            <TextInput
-              style={{
+            {/* Email Input */}
+            <View style={{ marginBottom: 24 }}>
+              <Text style={{
+                fontSize: 16,
+                color: '#065f46',
+                fontWeight: '500',
+                marginBottom: 8
+              }}>
+                Email
+              </Text>
+              <TextInput
+                style={{
+                  height: 50,
+                  backgroundColor: '#ffffff',
+                  borderRadius: 8,
+                  borderWidth: 1,
+                  borderColor: email ? '#10b981' : '#e5e7eb',
+                  paddingHorizontal: 16,
+                  color: '#065f46',
+                  fontSize: 16
+                }}
+                placeholder="Enter your email"
+                placeholderTextColor="#6b7280"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            {/* Password Input */}
+            <View style={{ marginBottom: 24 }}>
+              <Text style={{
+                fontSize: 16,
+                color: '#065f46',
+                fontWeight: '500',
+                marginBottom: 8
+              }}>
+                Password
+              </Text>
+              <View style={{
                 height: 50,
                 backgroundColor: '#ffffff',
                 borderRadius: 8,
                 borderWidth: 1,
                 borderColor: password ? '#10b981' : '#e5e7eb',
-                paddingHorizontal: 16,
-                color: '#065f46',
-                fontSize: 16
-              }}
-              placeholder="Enter your password"
-              placeholderTextColor="#6b7280"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoCapitalize="none"
-            />
-          </View>
-
-          {/* Role Dropdown - Only show for signup */}
-          {activeTab === 'signup' && (
-            <View style={{ marginBottom: 24, zIndex: 9999 }}>
-              <Text style={{
-                fontSize: 16,
-                color: '#065f46',
-                fontWeight: '500',
-                marginBottom: 8
+                paddingHorizontal: 12,
+                flexDirection: 'row',
+                alignItems: 'center'
               }}>
-                Chemical Industry Role
-              </Text>
-              <Pressable
-                onPress={() => setShowRoleDropdown(!showRoleDropdown)}
-                style={{
-                  height: 50,
-                  backgroundColor: '#ffffff',
-                  borderRadius: 8,
-                  borderWidth: 1,
-                  borderColor: role ? '#38a3a5' : showRoleDropdown ? '#22577a' : '#e5e7eb',
-                  paddingHorizontal: 16,
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  flexDirection: 'row'
-                }}
-              >
-                <Text style={{ 
-                  color: role ? '#065f46' : '#6b7280',
-                  fontSize: 16
-                }}>
-                  {role || 'Select your role'}
-                </Text>
-                <ChevronDown size={20} color="#6b7280" />
-              </Pressable>
-              
-              {/* Role Options Dropdown */}
-              {showRoleDropdown && (
-                <View style={{
-                  position: 'absolute',
-                  top: '100%',
-                  left: 0,
-                  right: 0,
-                  backgroundColor: '#ffffff',
-                  borderRadius: 12,
-                  borderWidth: 1,
-                  borderColor: '#e5e7eb',
-                  marginTop: 4,
-                  maxHeight: 300,
-                  zIndex: 99999,
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.15,
-                  shadowRadius: 8,
-                  elevation: 10
-                }}>
-                  {/* Search Input */}
-                  <View style={{
-                    padding: 16,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#f3f4f6',
-                    backgroundColor: '#fafafa'
+                <TextInput
+                  style={{
+                    flex: 1,
+                    height: '100%',
+                    color: '#065f46',
+                    fontSize: 16
+                  }}
+                  placeholder="Enter your password"
+                  placeholderTextColor="#6b7280"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
+                  autoCapitalize="none"
+                />
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={showPassword ? 'Hide password' : 'Show password'}
+                  onPress={() => setShowPassword(v => !v)}
+                  hitSlop={8}
+                  style={{ paddingHorizontal: 6, height: '100%', justifyContent: 'center' }}
+                >
+                  {showPassword ? <Eye size={20} color="#6b7280" /> : <EyeOff size={20} color="#6b7280" />}
+                </Pressable>
+              </View>
+            </View>
+
+            {/* Role Dropdown - Only show for signup */}
+            {activeTab === 'signup' && (
+              <View style={{ marginBottom: 24, zIndex: 100 }}>
+                <View>
+                  <Text style={{
+                    fontSize: 16,
+                    color: '#065f46',
+                    fontWeight: '500',
+                    marginBottom: 8
                   }}>
-                    <Text style={{
-                      fontSize: 12,
-                      color: '#6b7280',
-                      marginBottom: 8,
-                      fontWeight: '500',
-                      textTransform: 'uppercase',
-                      letterSpacing: 0.5
-                    }}>
-                      Search Chemical Industry Roles
-                    </Text>
-                    <TextInput
-                      style={{
-                        height: 44,
-                        backgroundColor: '#ffffff',
+                    Chemical Industry Role
+                  </Text>
+                  <View>
+                    <Pressable 
+                      style={({ pressed }) => ({
+                        height: 48,
+                        width: '100%',
                         borderRadius: 8,
+                        borderWidth: 2,
+                        borderColor: role ? '#10b981' : pressed ? '#38a3a5' : '#e5e7eb',
+                        backgroundColor: pressed ? '#f0fdf4' : '#ffffff',
                         paddingHorizontal: 16,
-                        fontSize: 16,
-                        color: '#065f46',
-                        borderWidth: 1,
-                        borderColor: '#e5e7eb'
-                      }}
-                      placeholder="Search chemical engineering roles..."
-                      placeholderTextColor="#9ca3af"
-                      value={roleSearch}
-                      onChangeText={setRoleSearch}
-                    />
-                  </View>
-                  
-                  {/* Options List */}
-                  {filteredRoleOptions.length > 0 ? (
-                    <ScrollView 
-                      style={{ maxHeight: 200 }}
-                      showsVerticalScrollIndicator={false}
-                      nestedScrollEnabled={true}
+                        paddingVertical: 12,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        shadowColor: pressed ? '#38a3a5' : '#000',
+                        shadowOffset: { width: 0, height: pressed ? 4 : 2 },
+                        shadowOpacity: pressed ? 0.2 : 0.1,
+                        shadowRadius: pressed ? 6 : 4,
+                        elevation: pressed ? 6 : 3,
+                      })}
+                      onPress={() => setRoleDropdownOpen(!roleDropdownOpen)}
                     >
-                      {filteredRoleOptions.map((option, index) => (
-                        <Pressable
-                          key={index}
-                          onPress={() => {
-                            setRole(option);
-                            setShowRoleDropdown(false);
-                            setRoleSearch('');
-                          }}
-                          style={{
-                            paddingVertical: 16,
-                            paddingHorizontal: 20,
-                            borderBottomWidth: index < filteredRoleOptions.length - 1 ? 1 : 0,
-                            borderBottomColor: '#f3f4f6',
-                            backgroundColor: role === option ? '#ecfdf5' : 'transparent',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between'
-                          }}
-                        >
-                          <Text style={{
-                            color: role === option ? '#065f46' : '#374151',
-                            fontSize: 16,
-                            fontWeight: role === option ? '600' : '400'
-                          }}>
-                            {option}
-                          </Text>
-                          {role === option && (
-                            <View style={{
-                              width: 8,
-                              height: 8,
-                              borderRadius: 4,
-                              backgroundColor: '#10b981'
-                            }} />
-                          )}
-                        </Pressable>
-                      ))}
-                    </ScrollView>
-                  ) : (
-                    <View style={{
-                      padding: 24,
-                      alignItems: 'center'
-                    }}>
                       <Text style={{
-                        color: '#9ca3af',
-                        fontSize: 14,
-                        fontStyle: 'italic'
-                      }}>
-                        No roles found matching "{roleSearch}"
-                      </Text>
-                  </View>
-                )}
-              </View>
-            )}
-          </View>
-        )}
-
-          {/* Startup Dropdown - Only show for signup */}
-          {activeTab === 'signup' && (
-            <View style={{ marginBottom: 40 }}>
-              <Text style={{
-                fontSize: 16,
-                color: '#065f46',
-                fontWeight: '500',
-                marginBottom: 8
-              }}>
-                Hydrogen & Chemical Company
-              </Text>
-              <Pressable
-                onPress={() => setShowStartupDropdown(!showStartupDropdown)}
-                style={{
-                  height: 50,
-                  backgroundColor: '#ffffff',
-                  borderRadius: 8,
-                  borderWidth: 1,
-                  borderColor: startup ? '#38a3a5' : showStartupDropdown ? '#22577a' : '#e5e7eb',
-                  paddingHorizontal: 16,
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  flexDirection: 'row'
-                }}
-              >
-                <Text style={{ 
-                  color: startup ? '#065f46' : '#6b7280',
-                  fontSize: 16
-                }}>
-                  {startup || 'Select startup'}
-                </Text>
-                <ChevronDown size={20} color="#6b7280" />
-              </Pressable>
-              
-              {/* Startup Options Dropdown */}
-              {showStartupDropdown && (
-                <View style={{
-                  position: 'absolute',
-                  top: '100%',
-                  left: 0,
-                  right: 0,
-                  backgroundColor: '#ffffff',
-                  borderRadius: 12,
-                  borderWidth: 1,
-                  borderColor: '#e5e7eb',
-                  marginTop: 4,
-                  maxHeight: 300,
-                  zIndex: 99999,
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.15,
-                  shadowRadius: 8,
-                  elevation: 10
-                }}>
-                  {/* Search Input */}
-                  <View style={{
-                    padding: 16,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#f3f4f6',
-                    backgroundColor: '#fafafa'
-                  }}>
-                    <Text style={{
-                      fontSize: 12,
-                      color: '#6b7280',
-                      marginBottom: 8,
-                      fontWeight: '500',
-                      textTransform: 'uppercase',
-                      letterSpacing: 0.5
-                    }}>
-                      Search Hydrogen & Chemical Startups
-                    </Text>
-                    <TextInput
-                      style={{
-                        height: 44,
-                        backgroundColor: '#ffffff',
-                        borderRadius: 8,
-                        paddingHorizontal: 16,
+                        color: role ? '#065f46' : '#6b7280',
                         fontSize: 16,
-                        color: '#065f46',
-                        borderWidth: 1,
-                        borderColor: '#e5e7eb'
-                      }}
-                      placeholder="Search hydrogen companies..."
-                      placeholderTextColor="#9ca3af"
-                      value={startupSearch}
-                      onChangeText={setStartupSearch}
-                    />
-                  </View>
-                  
-                  {/* Options List */}
-                  {filteredStartupOptions.length > 0 ? (
-                    <ScrollView 
-                      style={{ maxHeight: 200 }}
-                      showsVerticalScrollIndicator={false}
-                      nestedScrollEnabled={true}
+                        fontWeight: role ? '500' : '400'
+                      }}>
+                        {role || 'Select your role'}
+                      </Text>
+                      <Text style={{
+                        color: role ? '#10b981' : '#6b7280',
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        transform: [{ rotate: roleDropdownOpen ? '180deg' : '0deg' }]
+                      }}>▼</Text>
+                    </Pressable>
+                    
+                    {/* Role Options Modal Dropdown */}
+                    <Modal
+                      visible={roleDropdownOpen}
+                      transparent={true}
+                      animationType="fade"
+                      onRequestClose={() => setRoleDropdownOpen(false)}
                     >
-                      {filteredStartupOptions.map((option, index) => (
-                        <Pressable
-                          key={index}
-                          onPress={() => {
-                            setStartup(option);
-                            setShowStartupDropdown(false);
-                            setStartupSearch('');
-                          }}
-                          style={{
-                            paddingVertical: 16,
-                            paddingHorizontal: 20,
-                            borderBottomWidth: index < filteredStartupOptions.length - 1 ? 1 : 0,
-                            borderBottomColor: '#f3f4f6',
-                            backgroundColor: startup === option ? '#ecfdf5' : 'transparent',
-                          flexDirection: 'row',
+                      <TouchableWithoutFeedback onPress={() => setRoleDropdownOpen(false)}>
+                        <View style={{
+                          flex: 1,
+                          backgroundColor: 'rgba(0,0,0,0.3)',
+                          justifyContent: 'center',
                           alignItems: 'center',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        <Text style={{
-                          color: startup === option ? '#065f46' : '#374151',
-                          fontSize: 16,
-                          fontWeight: startup === option ? '600' : '400'
+                          paddingHorizontal: 20
                         }}>
-                          {option}
-                        </Text>
-                        {startup === option && (
-                          <View style={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: 4,
-                            backgroundColor: '#10b981'
-                          }} />
-                        )}
-                      </Pressable>
-                    ))}
-                  </ScrollView>
-                ) : (
-                  <View style={{
-                    padding: 24,
-                    alignItems: 'center'
-                  }}>
-                    <Text style={{
-                      color: '#9ca3af',
-                      fontSize: 14,
-                      fontStyle: 'italic'
-                    }}>
-                      No startups found matching "{startupSearch}"
-                    </Text>
+                          <TouchableWithoutFeedback>
+                            <View style={{
+                              width: '100%',
+                              maxWidth: 350,
+                              backgroundColor: '#ffffff',
+                              borderRadius: 12,
+                              shadowColor: '#000',
+                              shadowOffset: { width: 0, height: 8 },
+                              shadowOpacity: 0.2,
+                              shadowRadius: 16,
+                              elevation: 12,
+                              maxHeight: 400
+                            }}>
+                              {/* Header */}
+                              <View style={{
+                                paddingHorizontal: 20,
+                                paddingVertical: 16,
+                                borderBottomWidth: 1,
+                                borderBottomColor: '#e5e7eb'
+                              }}>
+                                <Text style={{
+                                  fontSize: 18,
+                                  fontWeight: '600',
+                                  color: '#065f46',
+                                  marginBottom: 8
+                                }}>
+                                  Select Chemical Industry Role
+                                </Text>
+                                <TextInput
+                                  style={{
+                                    height: 36,
+                                    backgroundColor: '#f9fafb',
+                                    borderRadius: 8,
+                                    paddingHorizontal: 12,
+                                    fontSize: 14,
+                                    color: '#374151',
+                                    borderWidth: 1,
+                                    borderColor: '#e5e7eb'
+                                  }}
+                                  placeholder="Search roles..."
+                                  placeholderTextColor="#9ca3af"
+                                  value={roleSearch}
+                                  onChangeText={setRoleSearch}
+                                  autoCapitalize="none"
+                                />
+                              </View>
+                              
+                              <ScrollView 
+                                style={{ maxHeight: 300 }}
+                                showsVerticalScrollIndicator={true}
+                                keyboardShouldPersistTaps="handled"
+                              >
+                                {filteredRoleOptions.length === 0 ? (
+                                  <View style={{
+                                    paddingVertical: 40,
+                                    alignItems: 'center'
+                                  }}>
+                                    <Text style={{
+                                      color: '#9ca3af',
+                                      fontSize: 14,
+                                      fontStyle: 'italic'
+                                    }}>
+                                      No roles found matching "{roleSearch}"
+                                    </Text>
+                                  </View>
+                                ) : (
+                                  filteredRoleOptions.map((option) => (
+                                    <Pressable
+                                      key={option.value}
+                                      style={({ pressed }) => ({
+                                        paddingVertical: 16,
+                                        paddingHorizontal: 20,
+                                        backgroundColor: role === option.value ? '#eff6ff' : pressed ? '#f9fafb' : 'transparent',
+                                        borderBottomWidth: 1,
+                                        borderBottomColor: '#f3f4f6'
+                                      })}
+                                      onPress={() => {
+                                        setRole(option.value);
+                                        setRoleDropdownOpen(false);
+                                        setRoleSearch('');
+                                      }}
+                                    >
+                                      <Text style={{
+                                        color: role === option.value ? '#1d4ed8' : '#374151',
+                                        fontSize: 16,
+                                        fontWeight: role === option.value ? '600' : '400'
+                                      }}>
+                                        {option.label}
+                                      </Text>
+                                      {role === option.value && (
+                                        <Text style={{
+                                          color: '#3b82f6',
+                                          fontSize: 12,
+                                          marginTop: 4
+                                        }}>
+                                          ✓ Selected
+                                        </Text>
+                                      )}
+                                    </Pressable>
+                                  ))
+                                )}
+                              </ScrollView>
+                            </View>
+                          </TouchableWithoutFeedback>
+                        </View>
+                      </TouchableWithoutFeedback>
+                    </Modal>
                   </View>
-                )}
+                </View>
               </View>
             )}
-          </View>
-        )}
-        </Animated.View>
-        </Pressable>
+
+            {/* Startup Dropdown - Only show for signup */}
+            {activeTab === 'signup' && (
+              <View style={{ marginBottom: 120, zIndex: 50 }}>
+                <View>
+                  <Text style={{
+                    fontSize: 16,
+                    color: '#065f46',
+                    fontWeight: '500',
+                    marginBottom: 8
+                  }}>
+                    Hydrogen & Chemical Company
+                  </Text>
+                  <View>
+                    <Pressable 
+                      style={({ pressed }) => ({
+                        height: 48,
+                        width: '100%',
+                        borderRadius: 8,
+                        borderWidth: 2,
+                        borderColor: startup ? '#10b981' : pressed ? '#38a3a5' : '#e5e7eb',
+                        backgroundColor: pressed ? '#f0fdf4' : '#ffffff',
+                        paddingHorizontal: 16,
+                        paddingVertical: 12,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        shadowColor: pressed ? '#38a3a5' : '#000',
+                        shadowOffset: { width: 0, height: pressed ? 4 : 2 },
+                        shadowOpacity: pressed ? 0.2 : 0.1,
+                        shadowRadius: pressed ? 6 : 4,
+                        elevation: pressed ? 6 : 3,
+                      })}
+                      onPress={() => setStartupDropdownOpen(!startupDropdownOpen)}
+                    >
+                      <Text style={{
+                        color: startup ? '#065f46' : '#6b7280',
+                        fontSize: 16,
+                        fontWeight: startup ? '500' : '400'
+                      }}>
+                        {startup || 'Select startup'}
+                      </Text>
+                      <Text style={{
+                        color: startup ? '#10b981' : '#6b7280',
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        transform: [{ rotate: startupDropdownOpen ? '180deg' : '0deg' }]
+                      }}>▼</Text>
+                    </Pressable>
+                    
+                    {/* Startup Options Modal Dropdown */}
+                    <Modal
+                      visible={startupDropdownOpen}
+                      transparent={true}
+                      animationType="fade"
+                      onRequestClose={() => setStartupDropdownOpen(false)}
+                    >
+                      <TouchableWithoutFeedback onPress={() => setStartupDropdownOpen(false)}>
+                        <View style={{
+                          flex: 1,
+                          backgroundColor: 'rgba(0,0,0,0.3)',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          paddingHorizontal: 20
+                        }}>
+                          <TouchableWithoutFeedback>
+                            <View style={{
+                              width: '100%',
+                              maxWidth: 350,
+                              backgroundColor: '#ffffff',
+                              borderRadius: 12,
+                              shadowColor: '#000',
+                              shadowOffset: { width: 0, height: 8 },
+                              shadowOpacity: 0.2,
+                              shadowRadius: 16,
+                              elevation: 12,
+                              maxHeight: 400
+                            }}>
+                              {/* Header */}
+                              <View style={{
+                                paddingHorizontal: 20,
+                                paddingVertical: 16,
+                                borderBottomWidth: 1,
+                                borderBottomColor: '#e5e7eb'
+                              }}>
+                                <Text style={{
+                                  fontSize: 18,
+                                  fontWeight: '600',
+                                  color: '#065f46',
+                                  marginBottom: 8
+                                }}>
+                                  Select Hydrogen & Chemical Company
+                                </Text>
+                                <TextInput
+                                  style={{
+                                    height: 36,
+                                    backgroundColor: '#f9fafb',
+                                    borderRadius: 8,
+                                    paddingHorizontal: 12,
+                                    fontSize: 14,
+                                    color: '#374151',
+                                    borderWidth: 1,
+                                    borderColor: '#e5e7eb'
+                                  }}
+                                  placeholder="Search startups..."
+                                  placeholderTextColor="#9ca3af"
+                                  value={startupSearch}
+                                  onChangeText={setStartupSearch}
+                                  autoCapitalize="none"
+                                />
+                              </View>
+                              
+                              <ScrollView 
+                                style={{ maxHeight: 300 }}
+                                showsVerticalScrollIndicator={true}
+                                keyboardShouldPersistTaps="handled"
+                              >
+                                {filteredStartupOptions.length === 0 ? (
+                                  <View style={{
+                                    paddingVertical: 40,
+                                    alignItems: 'center'
+                                  }}>
+                                    <Text style={{
+                                      color: '#9ca3af',
+                                      fontSize: 14,
+                                      fontStyle: 'italic'
+                                    }}>
+                                      No startups found matching "{startupSearch}"
+                                    </Text>
+                                  </View>
+                                ) : (
+                                  filteredStartupOptions.map((option) => (
+                                    <Pressable
+                                      key={option.value}
+                                      style={({ pressed }) => ({
+                                        paddingVertical: 16,
+                                        paddingHorizontal: 20,
+                                        backgroundColor: startup === option.value ? '#eff6ff' : pressed ? '#f9fafb' : 'transparent',
+                                        borderBottomWidth: 1,
+                                        borderBottomColor: '#f3f4f6'
+                                      })}
+                                      onPress={() => {
+                                        setStartup(option.value);
+                                        setStartupDropdownOpen(false);
+                                        setStartupSearch('');
+                                      }}
+                                    >
+                                      <Text style={{
+                                        color: startup === option.value ? '#1d4ed8' : '#374151',
+                                        fontSize: 16,
+                                        fontWeight: startup === option.value ? '600' : '400'
+                                      }}>
+                                        {option.label}
+                                      </Text>
+                                      {startup === option.value && (
+                                        <Text style={{
+                                          color: '#3b82f6',
+                                          fontSize: 12,
+                                          marginTop: 4
+                                        }}>
+                                          ✓ Selected
+                                        </Text>
+                                      )}
+                                    </Pressable>
+                                  ))
+                                )}
+                              </ScrollView>
+                            </View>
+                          </TouchableWithoutFeedback>
+                        </View>
+                      </TouchableWithoutFeedback>
+                    </Modal>
+                  </View>
+                </View>
+              </View>
+            )}
+
+
+
+            </Animated.View>
+        </ScrollView>
 
         {/* Login Button */}
         <View style={{ 
           position: 'absolute', 
           bottom: 40, 
           left: 20, 
-          right: 20 
+          right: 20,
+          zIndex: 100
         }}>
+
           <Pressable 
             onPress={() => {
               if (activeTab === 'login') {

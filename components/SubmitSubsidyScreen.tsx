@@ -1,12 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ArrowLeft, Building2, ChevronDown, Circle, FileText, Mail, Phone, User } from 'lucide-react-native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ArrowLeft, Building2, Circle, FileText, Mail, Phone, User } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Animated, Pressable, SafeAreaView, ScrollView, Text, TextInput, View } from 'react-native';
+import { Alert, Animated, Modal, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { RootStackParamList } from '../App';
 
+
 const SubmitSubsidyScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation() as NativeStackNavigationProp<RootStackParamList>;
   
   // Form state
   const [companyName, setCompanyName] = useState('');
@@ -16,8 +17,11 @@ const SubmitSubsidyScreen = () => {
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactPhone, setContactPhone] = useState('');
-  const [showBusinessTypeDropdown, setShowBusinessTypeDropdown] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Dropdown state
+  const [businessTypeDropdownOpen, setBusinessTypeDropdownOpen] = useState(false);
+  const [businessTypeSearch, setBusinessTypeSearch] = useState('');
   
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -26,17 +30,22 @@ const SubmitSubsidyScreen = () => {
   
   // Business type options for chemical industry
   const businessTypeOptions = [
-    'Hydrogen Production & Storage',
-    'Chemical Manufacturing',
-    'Green Chemistry Solutions',
-    'Carbon Capture & Utilization',
-    'Sustainable Materials',
-    'Clean Energy Technologies',
-    'Environmental Consulting',
-    'Research & Development',
-    'Industrial Process Optimization',
-    'Waste Management Solutions'
+    { label: 'Hydrogen Production & Storage', value: 'Hydrogen Production & Storage' },
+    { label: 'Chemical Manufacturing', value: 'Chemical Manufacturing' },
+    { label: 'Green Chemistry Solutions', value: 'Green Chemistry Solutions' },
+    { label: 'Carbon Capture & Utilization', value: 'Carbon Capture & Utilization' },
+    { label: 'Sustainable Materials', value: 'Sustainable Materials' },
+    { label: 'Clean Energy Technologies', value: 'Clean Energy Technologies' },
+    { label: 'Environmental Consulting', value: 'Environmental Consulting' },
+    { label: 'Research & Development', value: 'Research & Development' },
+    { label: 'Industrial Process Optimization', value: 'Industrial Process Optimization' },
+    { label: 'Waste Management Solutions', value: 'Waste Management Solutions' }
   ];
+  
+  // Filtered options based on search
+  const filteredBusinessTypeOptions = businessTypeOptions.filter(option =>
+    option.label.toLowerCase().includes(businessTypeSearch.toLowerCase())
+  );
   
   // Form validation
   const isFormValid = () => {
@@ -90,7 +99,9 @@ const SubmitSubsidyScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: '#d1fae5' }}>
+      <View 
+        style={{ flex: 1, backgroundColor: '#d1fae5' }}
+      >
         {/* Header */}
         <Animated.View 
           style={{ 
@@ -121,7 +132,7 @@ const SubmitSubsidyScreen = () => {
 
         {/* Form Content */}
         <ScrollView 
-          style={{ flex: 1, paddingHorizontal: 20 }}
+          style={{ flex: 1, paddingHorizontal: 20, zIndex: 1 }}
           showsVerticalScrollIndicator={false}
         >
           {/* Company Information Section */}
@@ -131,7 +142,8 @@ const SubmitSubsidyScreen = () => {
               transform: [{ translateY: staggerAnim.interpolate({
                 inputRange: [0, 1],
                 outputRange: [20, 0]
-              })}]
+              })}],
+              zIndex: 2
             }}
           >
             <View style={{
@@ -190,7 +202,7 @@ const SubmitSubsidyScreen = () => {
               </View>
 
               {/* Business Type */}
-              <View style={{ marginBottom: 20 }}>
+              <View style={{ marginBottom: 24 }}>
                 <Text style={{
                   fontSize: 16,
                   color: '#065f46',
@@ -199,80 +211,156 @@ const SubmitSubsidyScreen = () => {
                 }}>
                   Business Type *
                 </Text>
-                <Pressable
-                  onPress={() => setShowBusinessTypeDropdown(!showBusinessTypeDropdown)}
-                  style={{
+                <Pressable 
+                  style={({ pressed }) => ({
                     height: 50,
                     backgroundColor: '#f9fafb',
                     borderRadius: 8,
                     borderWidth: 1,
-                    borderColor: businessType ? '#38a3a5' : showBusinessTypeDropdown ? '#22577a' : '#e5e7eb',
+                    borderColor: businessType ? '#38a3a5' : pressed ? '#38a3a5' : '#e5e7eb',
                     paddingHorizontal: 16,
-                    justifyContent: 'space-between',
+                    flexDirection: 'row',
                     alignItems: 'center',
-                    flexDirection: 'row'
-                  }}
+                    justifyContent: 'space-between'
+                  })}
+                  onPress={() => setBusinessTypeDropdownOpen(true)}
                 >
-                  <Text style={{ 
+                  <Text style={{
                     color: businessType ? '#065f46' : '#6b7280',
-                    fontSize: 16
+                    fontSize: 16,
+                    fontWeight: businessType ? '500' : '400'
                   }}>
                     {businessType || 'Select business type'}
                   </Text>
-                  <ChevronDown size={20} color="#6b7280" />
+                  <Text style={{
+                    color: businessType ? '#10b981' : '#6b7280',
+                    fontSize: 18,
+                    fontWeight: 'bold'
+                  }}>▼</Text>
                 </Pressable>
                 
-                {/* Business Type Dropdown */}
-                {showBusinessTypeDropdown && (
-                  <View style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    right: 0,
-                    backgroundColor: '#ffffff',
-                    borderRadius: 12,
-                    borderWidth: 1,
-                    borderColor: '#e5e7eb',
-                    marginTop: 4,
-                    maxHeight: 300,
-                    zIndex: 9999,
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.15,
-                    shadowRadius: 8,
-                    elevation: 8
-                  }}>
-                    <ScrollView 
-                      style={{ maxHeight: 250 }}
-                      showsVerticalScrollIndicator={false}
-                    >
-                      {businessTypeOptions.map((option, index) => (
-                        <Pressable
-                          key={index}
-                          onPress={() => {
-                            setBusinessType(option);
-                            setShowBusinessTypeDropdown(false);
-                          }}
-                          style={{
-                            paddingVertical: 16,
+                {/* Business Type Modal Dropdown */}
+                <Modal
+                  visible={businessTypeDropdownOpen}
+                  transparent={true}
+                  animationType="fade"
+                  onRequestClose={() => setBusinessTypeDropdownOpen(false)}
+                >
+                  <TouchableWithoutFeedback onPress={() => setBusinessTypeDropdownOpen(false)}>
+                    <View style={{
+                      flex: 1,
+                      backgroundColor: 'rgba(0,0,0,0.3)',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      paddingHorizontal: 20
+                    }}>
+                      <TouchableWithoutFeedback>
+                        <View style={{
+                          width: '100%',
+                          maxWidth: 350,
+                          backgroundColor: '#ffffff',
+                          borderRadius: 12,
+                          shadowColor: '#000',
+                          shadowOffset: { width: 0, height: 8 },
+                          shadowOpacity: 0.2,
+                          shadowRadius: 16,
+                          elevation: 12,
+                          maxHeight: 400
+                        }}>
+                          {/* Header */}
+                          <View style={{
                             paddingHorizontal: 20,
-                            borderBottomWidth: index < businessTypeOptions.length - 1 ? 1 : 0,
-                            borderBottomColor: '#f3f4f6',
-                            backgroundColor: businessType === option ? '#ecfdf5' : 'transparent'
-                          }}
-                        >
-                          <Text style={{
-                            color: businessType === option ? '#065f46' : '#374151',
-                            fontSize: 16,
-                            fontWeight: businessType === option ? '600' : '400'
+                            paddingVertical: 16,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#e5e7eb'
                           }}>
-                            {option}
-                          </Text>
-                        </Pressable>
-                      ))}
-                    </ScrollView>
-                  </View>
-                )}
+                            <Text style={{
+                              fontSize: 18,
+                              fontWeight: '600',
+                              color: '#065f46',
+                              marginBottom: 8
+                            }}>
+                              Select Business Type
+                            </Text>
+                            <TextInput
+                              style={{
+                                height: 36,
+                                backgroundColor: '#f9fafb',
+                                borderRadius: 8,
+                                paddingHorizontal: 12,
+                                fontSize: 14,
+                                color: '#374151',
+                                borderWidth: 1,
+                                borderColor: '#e5e7eb'
+                              }}
+                              placeholder="Search business types..."
+                              placeholderTextColor="#9ca3af"
+                              value={businessTypeSearch}
+                              onChangeText={setBusinessTypeSearch}
+                              autoCapitalize="none"
+                            />
+                          </View>
+                          
+                          <ScrollView 
+                            style={{ maxHeight: 300 }}
+                            showsVerticalScrollIndicator={true}
+                            keyboardShouldPersistTaps="handled"
+                          >
+                            {filteredBusinessTypeOptions.length === 0 ? (
+                              <View style={{
+                                paddingVertical: 40,
+                                alignItems: 'center'
+                              }}>
+                                <Text style={{
+                                  color: '#9ca3af',
+                                  fontSize: 14,
+                                  fontStyle: 'italic'
+                                }}>
+                                  No business types found matching "{businessTypeSearch}"
+                                </Text>
+                              </View>
+                            ) : (
+                              filteredBusinessTypeOptions.map((option) => (
+                                <Pressable
+                                  key={option.value}
+                                  style={({ pressed }) => ({
+                                    paddingVertical: 16,
+                                    paddingHorizontal: 20,
+                                    backgroundColor: businessType === option.value ? '#eff6ff' : pressed ? '#f9fafb' : 'transparent',
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: '#f3f4f6'
+                                  })}
+                                  onPress={() => {
+                                    setBusinessType(option.value);
+                                    setBusinessTypeDropdownOpen(false);
+                                    setBusinessTypeSearch('');
+                                  }}
+                                >
+                                  <Text style={{
+                                    color: businessType === option.value ? '#1d4ed8' : '#374151',
+                                    fontSize: 16,
+                                    fontWeight: businessType === option.value ? '600' : '400'
+                                  }}>
+                                    {option.label}
+                                  </Text>
+                                  {businessType === option.value && (
+                                    <Text style={{
+                                      color: '#3b82f6',
+                                      fontSize: 12,
+                                      marginTop: 4
+                                    }}>
+                                      ✓ Selected
+                                    </Text>
+                                  )}
+                                </Pressable>
+                              ))
+                            )}
+                          </ScrollView>
+                        </View>
+                      </TouchableWithoutFeedback>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </Modal>
               </View>
             </View>
           </Animated.View>
@@ -284,7 +372,8 @@ const SubmitSubsidyScreen = () => {
               transform: [{ translateY: staggerAnim.interpolate({
                 inputRange: [0, 1],
                 outputRange: [20, 0]
-              })}]
+              })}],
+              zIndex: 2
             }}
           >
             <View style={{
@@ -391,7 +480,8 @@ const SubmitSubsidyScreen = () => {
               transform: [{ translateY: staggerAnim.interpolate({
                 inputRange: [0, 1],
                 outputRange: [20, 0]
-              })}]
+              })}],
+              zIndex: 2
             }}
           >
             <View style={{

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Leaf } from 'lucide-react-native';
 import { useEffect, useRef } from 'react';
@@ -20,7 +20,7 @@ import { RootStackParamList } from '../App';
 const { width, height } = Dimensions.get('window');
 
 const WelcomeScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
