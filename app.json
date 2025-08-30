@@ -3,6 +3,8 @@
     "name": "my-expo-app",
     "slug": "my-expo-app",
     "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "entryPoint": "./App.tsx",
 
     "web": {
       "favicon": "./assets/favicon.png"
@@ -26,9 +28,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.myexpoapp.app"
     },
     "android": {
+      "package": "com.myexpoapp.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
