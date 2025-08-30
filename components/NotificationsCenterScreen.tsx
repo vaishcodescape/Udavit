@@ -1,12 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AlertCircle, ArrowLeft, Bell, CheckCircle, FileText, Info, Lock, Settings, User } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { RootStackParamList } from '../App';
 
 const NotificationsCenterScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
