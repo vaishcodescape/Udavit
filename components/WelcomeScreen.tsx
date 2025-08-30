@@ -1,94 +1,342 @@
-import { Link } from 'expo-router';
-import { Platform, View, type ViewStyle } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Icon } from './Icon';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Leaf } from 'lucide-react-native';
+import { useEffect, useRef } from 'react';
+import {
+  Animated,
+  Dimensions,
+  SafeAreaView,
+  Text,
+  View,
+} from 'react-native';
 
-import { Button } from './nativewindui/Button';
-import { Text } from './nativewindui/Text';
+const { width, height } = Dimensions.get('window');
 
-const ROOT_STYLE: ViewStyle = { flex: 1 };
+const WelcomeScreen = () => {
+  // Animation values
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const bounceAnim = useRef(new Animated.Value(0)).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const titleFadeAnim = useRef(new Animated.Value(0)).current;
+  const subtitleFadeAnim = useRef(new Animated.Value(0)).current;
 
-export default function WelcomeConsentScreen() {
-  const colors = { primary: '#007AFF' }; // Simple color fallback
+  // Floating particles animation values
+  const particle1 = useRef(new Animated.Value(0)).current;
+  const particle2 = useRef(new Animated.Value(0)).current;
+  const particle3 = useRef(new Animated.Value(0)).current;
+  const particle4 = useRef(new Animated.Value(0)).current;
+  const particle5 = useRef(new Animated.Value(0)).current;
+
+  // Background pulse animations
+  const bgPulse1 = useRef(new Animated.Value(1)).current;
+  const bgPulse2 = useRef(new Animated.Value(1)).current;
+  const bgPulse3 = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    // Start all animations
+    startAnimations();
+  }, []);
+
+  const startAnimations = () => {
+    // Fade in animation
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+
+    // Main leaf bounce animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(bounceAnim, {
+          toValue: -10,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bounceAnim, {
+          toValue: 0,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    // Title animations with delays
+    Animated.timing(titleFadeAnim, {
+      toValue: 1,
+      duration: 800,
+      delay: 500,
+      useNativeDriver: true,
+    }).start();
+
+    Animated.timing(subtitleFadeAnim, {
+      toValue: 1,
+      duration: 800,
+      delay: 1000,
+      useNativeDriver: true,
+    }).start();
+
+    // Floating particles animations
+    startParticleAnimation(particle1, 3000, 0);
+    startParticleAnimation(particle2, 4000, 1000);
+    startParticleAnimation(particle3, 3500, 2000);
+    startParticleAnimation(particle4, 2800, 500);
+    startParticleAnimation(particle5, 3200, 1500);
+
+    // Background pulse animations
+    startPulseAnimation(bgPulse1, 4000, 0);
+    startPulseAnimation(bgPulse2, 5000, 2000);
+    startPulseAnimation(bgPulse3, 6000, 3000);
+
+    // Title pulse animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1.05,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
+
+  const startParticleAnimation = (animValue: Animated.Value, duration: number, delay: number) => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(animValue, {
+          toValue: -20,
+          duration: duration,
+          useNativeDriver: true,
+        }),
+        Animated.timing(animValue, {
+          toValue: 0,
+          duration: duration,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
+
+  const startPulseAnimation = (animValue: Animated.Value, duration: number, delay: number) => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(animValue, {
+          toValue: 1.2,
+          duration: duration,
+          useNativeDriver: true,
+        }),
+        Animated.timing(animValue, {
+          toValue: 1,
+          duration: duration,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
+
   return (
-    <SafeAreaView style={ROOT_STYLE}>
-      <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4 ">
-        <View className="ios:pt-8 pt-12">
-          <Text variant="largeTitle" className="ios:text-left ios:font-black text-center font-bold">
-            Welcome to your
-          </Text>
-          <Text
-            variant="largeTitle"
-            className="ios:text-left ios:font-black text-primary text-center font-bold">
-            Application
-          </Text>
-        </View>
-        <View className="gap-8">
-          {FEATURES.map((feature) => (
-            <View key={feature.title} className="flex-row gap-4">
-              <View className="pt-px">
-                <Icon
-                  name={feature.icon}
-                  size={38}
-                  color={colors.primary}
-                  ios={{ renderingMode: 'hierarchical' }}
-                />
-              </View>
-              <View className="flex-1">
-                <Text className="font-bold">{feature.title}</Text>
-                <Text variant="footnote">{feature.description}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
-        <View className="gap-4">
-          <View className="items-center">
-            <Icon
-              name="account-multiple"
-              size={24}
-              color={colors.primary}
-              ios={{ renderingMode: 'hierarchical' }}
-            />
-            <Text variant="caption2" className="pt-1 text-center">
-              By pressing continue, you agree to our{' '}
-              <Link href="/">
-                <Text variant="caption2" className="text-primary">
-                  Terms of Service
-                </Text>
-              </Link>{' '}
-              and that you have read our{' '}
-              <Link href="/">
-                <Text variant="caption2" className="text-primary">
-                  Privacy Policy
-                </Text>
-              </Link>
-            </Text>
-          </View>
-          <Link href="../" replace asChild>
-            <Button size={Platform.select({ ios: 'lg', default: 'md' })}>
-              <Text>Continue</Text>
-            </Button>
-          </Link>
-        </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        {/* Animated background gradient */}
+        <LinearGradient
+          colors={['#34d399', '#6ee7b7', '#5eead4']}
+          locations={[0, 0.5, 1]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
+        />
+        
+        {/* Animated background overlay */}
+        <Animated.View 
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            opacity: fadeAnim,
+          }}
+        >
+          <LinearGradient
+            colors={['rgba(5, 150, 105, 0.3)', 'transparent', 'rgba(52, 211, 153, 0.2)']}
+            locations={[0, 0.5, 1]}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 0, y: 0 }}
+            style={{ flex: 1 }}
+          />
+        </Animated.View>
+        
+        {/* Floating leaf particles */}
+        <Animated.View
+          style={{
+            position: 'absolute',
+            opacity: 0.2,
+            top: height * 0.1,
+            left: width * 0.1,
+            transform: [{ translateY: particle1 }],
+          }}
+        >
+          <Leaf size={24} color="#047857" />
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            position: 'absolute',
+            opacity: 0.15,
+            top: height * 0.25,
+            right: width * 0.15,
+            transform: [{ translateY: particle2 }],
+          }}
+        >
+          <Leaf size={32} color="#059669" />
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            position: 'absolute',
+            opacity: 0.1,
+            top: height * 0.4,
+            left: width * 0.25,
+            transform: [{ translateY: particle3 }],
+          }}
+        >
+          <Leaf size={28} color="#065f46" />
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            position: 'absolute',
+            opacity: 0.25,
+            bottom: height * 0.45,
+            right: width * 0.25,
+            transform: [{ translateY: particle4 }],
+          }}
+        >
+          <Leaf size={20} color="#047857" />
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            position: 'absolute',
+            opacity: 0.15,
+            top: height * 0.5,
+            left: width * 0.08,
+            transform: [{ translateY: particle5 }],
+          }}
+        >
+          <Leaf size={36} color="#059669" />
+        </Animated.View>
+
+        {/* Subtle moving circles for depth */}
+        <Animated.View
+          style={{
+            position: 'absolute',
+            width: 128,
+            height: 128,
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            borderRadius: 64,
+            top: height * 0.15,
+            right: width * 0.2,
+            transform: [{ scale: bgPulse1 }],
+          }}
+        />
+        
+        <Animated.View
+          style={{
+            position: 'absolute',
+            width: 96,
+            height: 96,
+            backgroundColor: 'rgba(167, 243, 208, 0.2)',
+            borderRadius: 48,
+            bottom: height * 0.4,
+            left: width * 0.15,
+            transform: [{ scale: bgPulse2 }],
+          }}
+        />
+        
+        <Animated.View
+          style={{
+            position: 'absolute',
+            width: 80,
+            height: 80,
+            backgroundColor: 'rgba(134, 239, 172, 0.15)',
+            borderRadius: 40,
+            top: height * 0.33,
+            right: width * 0.33,
+            transform: [{ scale: bgPulse3 }],
+          }}
+        />
+
+                 {/* Main content */}
+         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 32 }}>
+           <View style={{ alignItems: 'center' }}>
+             {/* Main Leaf Icon positioned above the title */}
+             <Animated.View
+               style={{
+                 marginBottom: 48,
+                 opacity: fadeAnim,
+                 transform: [
+                   { translateY: bounceAnim },
+                   { scale: pulseAnim },
+                 ],
+               }}
+             >
+               <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                 <Leaf 
+                   size={100} 
+                   color="#065f46"
+                 />
+               </View>
+             </Animated.View>
+             
+             {/* App Title */}
+             <Animated.View
+               style={{
+                 marginBottom: 24,
+                 opacity: titleFadeAnim,
+                 transform: [{ scale: pulseAnim }],
+               }}
+             >
+               <Text style={{
+                 fontSize: 60,
+                 fontWeight: '900',
+                 color: '#064e3b',
+                 letterSpacing: 8,
+                 textAlign: 'center',
+                 textShadowColor: 'rgba(0, 0, 0, 0.1)',
+                 textShadowOffset: { width: 2, height: 2 },
+                 textShadowRadius: 4,
+               }}>
+                 Udavit
+               </Text>
+             </Animated.View>
+             
+             {/* Optional subtitle */}
+             <Animated.View
+               style={{
+                 opacity: subtitleFadeAnim,
+               }}
+             >
+               <Text style={{
+                 fontSize: 20,
+                 color: '#065f46',
+                 opacity: 0.9,
+                 textAlign: 'center',
+                 fontWeight: '500',
+                 letterSpacing: 2,
+               }}>
+                 Empowering Green Innovation
+               </Text>
+             </Animated.View>
+           </View>
+         </View>
       </View>
     </SafeAreaView>
   );
-}
+};
 
-const FEATURES = [
-  {
-    title: 'Profile Management',
-    description: 'Easily update and manage your personal information, settings, and preferences',
-    icon: 'account-circle-outline',
-  },
-  {
-    title: 'Secure Messaging',
-    description: 'Chat securely with friends and family in real-time.',
-    icon: 'message-processing',
-  },
-  {
-    title: 'Activity Tracking',
-    description: 'Monitor your daily activities and track your progress over time.',
-    icon: 'chart-timeline-variant',
-  },
-] as const;
+export default WelcomeScreen;

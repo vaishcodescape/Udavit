@@ -20,9 +20,16 @@ module.exports = {
         'destructive-foreground': 'var(--color-destructive-foreground)',
         ring: 'var(--color-ring)',
         card: 'var(--color-card)',
-        'card-foreground': 'var(--color-card-foreground)',
+        'card-card-foreground': 'var(--color-card-foreground)',
         popover: 'var(--color-popover)',
         'popover-foreground': 'var(--color-popover-foreground)',
+        // Explicit colors for Android compatibility
+        teal: {
+          800: '#115E59',
+        },
+        green: {
+          400: '#4ADE80',
+        },
       },
     },
   },
