@@ -23,6 +23,14 @@ module.exports = {
         'card-card-foreground': 'var(--color-card-foreground)',
         popover: 'var(--color-popover)',
         'popover-foreground': 'var(--color-popover-foreground)',
+        // Custom color palette
+        custom: {
+          primary: '#22577a',
+          secondary: '#38a3a5',
+          accent: '#57cc99',
+          light: '#80ed99',
+          pale: '#c7f9cc',
+        },
         // Explicit colors for Android compatibility
         teal: {
           800: '#115E59',

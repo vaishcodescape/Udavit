@@ -11,10 +11,10 @@ import { TextClassContext } from './Text';
 const buttonVariants = cva('flex-row items-center justify-center gap-2', {
   variants: {
     variant: {
-      primary: 'ios:active:opacity-80 bg-primary',
-      secondary: 'ios:border-primary ios:active:bg-primary/5 border border-foreground/40',
+      primary: 'ios:active:opacity-80 bg-custom-primary',
+      secondary: 'ios:border-custom-primary ios:active:bg-custom-primary/5 border border-custom-accent/40',
       tonal:
-        'ios:bg-primary/10 dark:ios:bg-primary/10 ios:active:bg-primary/15 bg-primary/15 dark:bg-primary/30',
+        'ios:bg-custom-primary/10 dark:ios:bg-custom-primary/10 ios:active:bg-custom-primary/15 bg-custom-primary/15 dark:bg-custom-primary/30',
       plain: 'ios:active:opacity-70',
     },
     size: {
@@ -50,9 +50,9 @@ const buttonTextVariants = cva('font-medium', {
   variants: {
     variant: {
       primary: 'text-white',
-      secondary: 'ios:text-primary text-foreground',
-      tonal: 'ios:text-primary text-foreground',
-      plain: 'text-foreground',
+      secondary: 'ios:text-custom-primary text-custom-foreground',
+      tonal: 'ios:text-custom-primary text-custom-foreground',
+      plain: 'text-custom-foreground',
     },
     size: {
       none: '',
@@ -145,7 +145,9 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
             style={style}
             android_ripple={ANDROID_RIPPLE[colorScheme][variant]}
             {...props}
-          />
+          >
+            {props.children}
+          </Pressable>
         </Root>
       </TextClassContext.Provider>
     );
