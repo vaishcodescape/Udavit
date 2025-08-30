@@ -1,23 +1,29 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Leaf } from 'lucide-react-native';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Dimensions,
   SafeAreaView,
   Text,
-  View,
+  TouchableOpacity,
+  View
 } from 'react-native';
+import OnBoarding from './OnBoarding';
 
 const { width, height } = Dimensions.get('window');
 
 const WelcomeScreen = () => {
+  // State for navigation
+  const [showOnBoarding, setShowOnBoarding] = useState(false);
+  
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const bounceAnim = useRef(new Animated.Value(0)).current;
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const titleFadeAnim = useRef(new Animated.Value(0)).current;
   const subtitleFadeAnim = useRef(new Animated.Value(0)).current;
+  const buttonScale = useRef(new Animated.Value(1)).current;
 
   // Floating particles animation values
   const particle1 = useRef(new Animated.Value(0)).current;
@@ -137,6 +143,59 @@ const WelcomeScreen = () => {
       ])
     ).start();
   };
+
+  const handleButtonPressIn = () => {
+    Animated.spring(buttonScale, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleButtonPressOut = () => {
+    Animated.spring(buttonScale, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleGetStarted = () => {
+    // Add a nice scale bounce effect
+    Animated.sequence([
+      Animated.spring(buttonScale, {
+        toValue: 0.9,
+        useNativeDriver: true,
+      }),
+      Animated.spring(buttonScale, {
+        toValue: 1.05,
+        useNativeDriver: true,
+      }),
+      Animated.spring(buttonScale, {
+        toValue: 1,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    
+    // Add haptic feedback if available
+    try {
+      // Light impact feedback
+      if (typeof window !== 'undefined') {
+        // For web, we can add a simple vibration
+        navigator?.vibrate?.(50);
+      }
+    } catch (error) {
+      // Silently fail if haptics not available
+    }
+    
+    // Navigate after a short delay to show the animation
+    setTimeout(() => {
+      setShowOnBoarding(true);
+    }, 200);
+  };
+
+  // Show OnBoarding screen if button was pressed
+  if (showOnBoarding) {
+    return <OnBoarding />;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -332,6 +391,39 @@ const WelcomeScreen = () => {
                  Empowering Green Innovation
                </Text>
              </Animated.View>
+              {/* Get Started Button */}
+              <Animated.View
+                style={{
+                  marginTop: 40,
+                  opacity: subtitleFadeAnim,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={handleGetStarted}
+                  activeOpacity={0.8}
+                  style={{
+                    backgroundColor: '#047857',
+                    paddingHorizontal: 32,
+                    paddingVertical: 16,
+                    borderRadius: 25,
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 8,
+                    elevation: 8,
+                  }}
+                >
+                  <Text style={{
+                    color: '#FFFFFF',
+                    fontSize: 18,
+                    fontWeight: '600',
+                    textAlign: 'center',
+                    letterSpacing: 1,
+                  }}>
+                    Get Started
+                  </Text>
+                </TouchableOpacity>
+              </Animated.View>
            </View>
          </View>
       </View>
