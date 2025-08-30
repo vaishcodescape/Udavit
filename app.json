@@ -1,8 +1,16 @@
 {
   "expo": {
+<<<<<<< HEAD
     "name": "udavit-app",
     "slug": "udavit-app",
     "version": "1.0.0",
+=======
+    "name": "my-expo-app",
+    "slug": "my-expo-app",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "entryPoint": "./App.tsx",
+>>>>>>> 0892c35552117fda14cfd94cc6ae8e3bbd5daca7
 
     "web": {
       "favicon": "./assets/favicon.png"
@@ -26,9 +34,17 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+<<<<<<< HEAD
       "supportsTablet": true
     },
     "android": {
+=======
+      "supportsTablet": true,
+      "bundleIdentifier": "com.myexpoapp.app"
+    },
+    "android": {
+      "package": "com.myexpoapp.app",
+>>>>>>> 0892c35552117fda14cfd94cc6ae8e3bbd5daca7
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

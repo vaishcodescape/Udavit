@@ -1,3 +1,46 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+<<<<<<< HEAD
+=======
+
+@layer base {
+  :root {
+    --color-primary: #007AFF;
+    --color-secondary: #5856D6;
+    --color-accent: #FF9500;
+    --color-background: #FFFFFF;
+    --color-foreground: #000000;
+    --color-muted: #F2F2F7;
+    --color-muted-foreground: #8E8E93;
+    --color-border: #C6C6C8;
+    --color-input: #F2F2F7;
+    --color-destructive: #FF3B30;
+    --color-destructive-foreground: #FFFFFF;
+    --color-ring: #007AFF;
+    --color-card: #FFFFFF;
+    --color-card-foreground: #000000;
+    --color-popover: #FFFFFF;
+    --color-popover-foreground: #000000;
+  }
+
+  .dark {
+    --color-primary: #0A84FF;
+    --color-secondary: #5E5CE6;
+    --color-accent: #FF9F0A;
+    --color-background: #000000;
+    --color-foreground: #FFFFFF;
+    --color-muted: #1C1C1E;
+    --color-muted-foreground: #8E8E93;
+    --color-border: #38383A;
+    --color-input: #1C1C1E;
+    --color-destructive: #FF453A;
+    --color-destructive-foreground: #FFFFFF;
+    --color-ring: #0A84FF;
+    --color-card: #1C1C1E;
+    --color-card-foreground: #FFFFFF;
+    --color-popover: #1C1C1E;
+    --color-popover-foreground: #FFFFFF;
+  }
+}
+>>>>>>> 0892c35552117fda14cfd94cc6ae8e3bbd5daca7

@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "udavit-app",
+=======
+  "name": "my-expo-app",
+>>>>>>> 0892c35552117fda14cfd94cc6ae8e3bbd5daca7
   "version": "1.0.0",
   "scripts": {
     "android": "expo start --android",
@@ -11,6 +15,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+<<<<<<< HEAD
     "expo": "53.0.22",
     "expo-status-bar": "~2.2.3",
     "nativewind": "latest",
@@ -22,6 +27,34 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~19.0.10",
+=======
+    "@expo/metro-runtime": "~5.0.4",
+    "@react-navigation/bottom-tabs": "^7.4.6",
+    "@react-navigation/elements": "^2.6.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "expo": "53.0.22",
+    "expo-blur": "^14.1.5",
+    "expo-haptics": "^14.1.4",
+    "expo-router": "^5.1.4",
+    "expo-status-bar": "~2.2.3",
+    "expo-symbols": "^0.4.5",
+    "expo-web-browser": "^14.2.0",
+    "nativewind": "latest",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-native": "0.79.5",
+    "react-native-reanimated": "~3.17.4",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-web": "^0.20.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "~19.0.0",
+    "@types/react-dom": "~19.0.0",
+>>>>>>> 0892c35552117fda14cfd94cc6ae8e3bbd5daca7
     "eslint": "^9.25.1",
     "eslint-config-expo": "^9.2.0",
     "eslint-config-prettier": "^10.1.2",
