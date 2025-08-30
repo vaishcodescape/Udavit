@@ -1,13 +1,30 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./app/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
-    "./hooks/**/*.{js,jsx,ts,tsx}",
-    "./constants/**/*.{js,jsx,ts,tsx}"
-  ],
+  content: ['./App.{js,ts,tsx}', './components/**/*.{js,ts,tsx}'],
+
+  presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // Add default color variables that NativeWind expects
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        accent: 'var(--color-accent)',
+        background: 'var(--color-background)',
+        foreground: 'var(--color-foreground)',
+        muted: 'var(--color-muted)',
+        'muted-foreground': 'var(--color-muted-foreground)',
+        border: 'var(--color-border)',
+        input: 'var(--color-input)',
+        destructive: 'var(--color-destructive)',
+        'destructive-foreground': 'var(--color-destructive-foreground)',
+        ring: 'var(--color-ring)',
+        card: 'var(--color-card)',
+        'card-foreground': 'var(--color-card-foreground)',
+        popover: 'var(--color-popover)',
+        'popover-foreground': 'var(--color-popover-foreground)',
+      },
+    },
   },
-  plugins: [],
-}
+  plugins: [require('tailwindcss-animate')],
+};
