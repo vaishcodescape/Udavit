@@ -4,11 +4,6 @@ module.exports = {
 
   presets: [require('nativewind/preset')],
   theme: {
-<<<<<<< HEAD
-    extend: {},
-  },
-  plugins: [],
-=======
     extend: {
       colors: {
         // Add default color variables that NativeWind expects
@@ -32,5 +27,4 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
->>>>>>> 0892c35552117fda14cfd94cc6ae8e3bbd5daca7
 };

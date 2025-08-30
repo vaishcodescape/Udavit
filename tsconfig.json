@@ -3,19 +3,13 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react-jsx",
-<<<<<<< HEAD
-
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
-=======
-    "baseUrl": ".",
-    "paths": {
+      "~/*": ["src/*"],
       "components/*": ["components/*"],
       "constants/*": ["constants/*"],
       "hooks/*": ["hooks/*"],
       "assets/*": ["assets/*"]
->>>>>>> 0892c35552117fda14cfd94cc6ae8e3bbd5daca7
     }
   }
 }
