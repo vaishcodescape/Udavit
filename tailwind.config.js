@@ -4,7 +4,27 @@ module.exports = {
 
   presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // Add default color variables that NativeWind expects
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        accent: 'var(--color-accent)',
+        background: 'var(--color-background)',
+        foreground: 'var(--color-foreground)',
+        muted: 'var(--color-muted)',
+        'muted-foreground': 'var(--color-muted-foreground)',
+        border: 'var(--color-border)',
+        input: 'var(--color-input)',
+        destructive: 'var(--color-destructive)',
+        'destructive-foreground': 'var(--color-destructive-foreground)',
+        ring: 'var(--color-ring)',
+        card: 'var(--color-card)',
+        'card-foreground': 'var(--color-card-foreground)',
+        popover: 'var(--color-popover)',
+        'popover-foreground': 'var(--color-popover-foreground)',
+      },
+    },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 };
