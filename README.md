@@ -267,7 +267,7 @@ RAZORPAY_KEY_SECRET=your_razorpay_secret
 
 - **iOS**: Build and deploy through Xcode
 - **Android**: Generate APK/AAB through Android Studio
-- 
+
 ## 🤝 Contributing
 
 1. Fork the repository
