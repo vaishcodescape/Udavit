@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "udavit",
-    "slug": "udavit",
+    "name": "my-expo-app",
+    "slug": "my-expo-app",
     "version": "1.0.0",
 
     "web": {
