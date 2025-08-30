@@ -1,21 +1,26 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Leaf } from 'lucide-react-native';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Animated,
   Dimensions,
+  Pressable,
   SafeAreaView,
+  ScrollView,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native';
-import OnBoarding from './OnBoarding';
+import { RootStackParamList } from '../App';
+
+
+ 
 
 const { width, height } = Dimensions.get('window');
 
 const WelcomeScreen = () => {
-  // State for navigation
-  const [showOnBoarding, setShowOnBoarding] = useState(false);
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -188,14 +193,9 @@ const WelcomeScreen = () => {
     
     // Navigate after a short delay to show the animation
     setTimeout(() => {
-      setShowOnBoarding(true);
+      navigation.navigate('OnBoarding');
     }, 200);
   };
-
-  // Show OnBoarding screen if button was pressed
-  if (showOnBoarding) {
-    return <OnBoarding />;
-  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -331,7 +331,16 @@ const WelcomeScreen = () => {
         />
 
                  {/* Main content */}
-         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 32 }}>
+         <ScrollView 
+           style={{ flex: 1 }}
+           contentContainerStyle={{ 
+             flexGrow: 1,
+             justifyContent: 'center', 
+             alignItems: 'center', 
+             paddingHorizontal: 32 
+           }}
+           showsVerticalScrollIndicator={false}
+         >
            <View style={{ alignItems: 'center' }}>
              {/* Main Leaf Icon positioned above the title */}
              <Animated.View
@@ -391,41 +400,43 @@ const WelcomeScreen = () => {
                  Empowering Green Innovation
                </Text>
              </Animated.View>
-              {/* Get Started Button */}
-              <Animated.View
-                style={{
-                  marginTop: 40,
-                  opacity: subtitleFadeAnim,
-                }}
-              >
-                <TouchableOpacity
-                  onPress={handleGetStarted}
-                  activeOpacity={0.8}
-                  style={{
-                    backgroundColor: '#047857',
-                    paddingHorizontal: 32,
-                    paddingVertical: 16,
-                    borderRadius: 25,
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.3,
-                    shadowRadius: 8,
-                    elevation: 8,
-                  }}
-                >
-                  <Text style={{
-                    color: '#FFFFFF',
-                    fontSize: 18,
-                    fontWeight: '600',
-                    textAlign: 'center',
-                    letterSpacing: 1,
-                  }}>
-                    Get Started
-                  </Text>
-                </TouchableOpacity>
-              </Animated.View>
+             
+             {/* Navigation Button */}
+             <Animated.View
+               style={{
+                 marginTop: 40,
+                 opacity: subtitleFadeAnim,
+               }}
+             >
+               <Pressable
+                 onPress={handleGetStarted}
+                 style={{
+                   backgroundColor: '#22577a',
+                   paddingVertical: 16,
+                   paddingHorizontal: 32,
+                   borderRadius: 12,
+                   alignItems: 'center',
+                   shadowColor: '#000',
+                   shadowOffset: { width: 0, height: 2 },
+                   shadowOpacity: 0.1,
+                   shadowRadius: 4,
+                   elevation: 3,
+                 }}
+               >
+                 <Text style={{
+                   color: '#ffffff',
+                   fontSize: 18,
+                   fontWeight: '600',
+                   textAlign: 'center'
+                 }}>
+                   Get Started
+                 </Text>
+               </Pressable>
+             </Animated.View>
+             
+            
            </View>
-         </View>
+         </ScrollView>
       </View>
     </SafeAreaView>
   );

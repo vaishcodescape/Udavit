@@ -4,40 +4,40 @@
 
 @layer base {
   :root {
-    --color-primary: #007AFF;
-    --color-secondary: #5856D6;
-    --color-accent: #FF9500;
-    --color-background: #FFFFFF;
-    --color-foreground: #000000;
-    --color-muted: #F2F2F7;
-    --color-muted-foreground: #8E8E93;
-    --color-border: #C6C6C8;
-    --color-input: #F2F2F7;
-    --color-destructive: #FF3B30;
-    --color-destructive-foreground: #FFFFFF;
-    --color-ring: #007AFF;
-    --color-card: #FFFFFF;
-    --color-card-foreground: #000000;
-    --color-popover: #FFFFFF;
-    --color-popover-foreground: #000000;
+    --color-primary: #22577a;
+    --color-secondary: #38a3a5;
+    --color-accent: #57cc99;
+    --color-background: #ffffff;
+    --color-foreground: #22577a;
+    --color-muted: #c7f9cc;
+    --color-muted-foreground: #38a3a5;
+    --color-border: #80ed99;
+    --color-input: #c7f9cc;
+    --color-destructive: #ff3b30;
+    --color-destructive-foreground: #ffffff;
+    --color-ring: #22577a;
+    --color-card: #ffffff;
+    --color-card-foreground: #22577a;
+    --color-popover: #ffffff;
+    --color-popover-foreground: #22577a;
   }
 
   .dark {
-    --color-primary: #0A84FF;
-    --color-secondary: #5E5CE6;
-    --color-accent: #FF9F0A;
-    --color-background: #000000;
-    --color-foreground: #FFFFFF;
-    --color-muted: #1C1C1E;
-    --color-muted-foreground: #8E8E93;
-    --color-border: #38383A;
-    --color-input: #1C1C1E;
-    --color-destructive: #FF453A;
-    --color-destructive-foreground: #FFFFFF;
-    --color-ring: #0A84FF;
-    --color-card: #1C1C1E;
-    --color-card-foreground: #FFFFFF;
-    --color-popover: #1C1C1E;
-    --color-popover-foreground: #FFFFFF;
+    --color-primary: #38a3a5;
+    --color-secondary: #57cc99;
+    --color-accent: #80ed99;
+    --color-background: #22577a;
+    --color-foreground: #c7f9cc;
+    --color-muted: #1a1a2e;
+    --color-muted-foreground: #80ed99;
+    --color-border: #57cc99;
+    --color-input: #1a1a2e;
+    --color-destructive: #ff453a;
+    --color-destructive-foreground: #ffffff;
+    --color-ring: #38a3a5;
+    --color-card: #1a1a2e;
+    --color-card-foreground: #c7f9cc;
+    --color-popover: #1a1a2e;
+    --color-popover-foreground: #c7f9cc;
   }
 }
