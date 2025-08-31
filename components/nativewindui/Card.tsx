@@ -5,13 +5,13 @@ import { View, ViewProps } from 'react-native';
 import { cn } from '../../lib/cn';
 
 const cardVariants = cva(
-  'bg-card border border-border rounded-lg shadow-sm',
+  'bg-white border border-gray-200 rounded-lg shadow-sm',
   {
     variants: {
       variant: {
-        default: 'bg-card',
-        secondary: 'bg-secondary/10',
-        outline: 'border-border',
+        default: 'bg-white',
+        secondary: 'bg-gray-50',
+        outline: 'border-gray-200',
         ghost: 'border-0 shadow-none',
       },
       size: {
@@ -66,7 +66,7 @@ const CardDescription = React.forwardRef<View, ViewProps>(
   ({ className, ...props }, ref) => (
     <View
       ref={ref}
-      className={cn('text-sm text-muted-foreground', className)}
+      className={cn('text-sm text-gray-600', className)}
       {...props}
     />
   )

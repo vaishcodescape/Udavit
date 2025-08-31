@@ -2,8 +2,9 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Modal, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { ActivityIndicator, Alert, Animated, Modal, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { RootStackParamList } from '../App';
+import { authService } from '../services/authService';
 
 
 const LoginSignupScreen = () => {
@@ -16,6 +17,10 @@ const LoginSignupScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('');
   const [startup, setStartup] = useState('');
+  
+  // Loading and error states
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   
   // Dropdown state
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
@@ -143,7 +148,128 @@ const LoginSignupScreen = () => {
     ).start();
   }, []);
   
-    // Handle tab switching with animations
+    // Authentication functions
+  const handleLogin = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await authService.login({ email, password });
+      
+      if (response.success) {
+        Alert.alert(
+          'Login Successful!',
+          `Welcome back! Redirecting to dashboard...`,
+          [{ 
+            text: 'Continue', 
+            onPress: () => navigation.navigate('StartupDashboard')
+          }]
+        );
+      } else {
+        setError(response.message);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const confirmAndSignup = () => {
+    // Show confirmation dialog with profile details
+    Alert.alert(
+      'Confirm Your Profile',
+      `Please confirm your profile details before creating your account:\n\n📧 Email: ${email.trim()}\n👤 Role: ${role}\n🏢 Company Type: ${startup}\n\nThis information will be saved to your Firebase profile.`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'Create Account',
+          onPress: handleSignup
+        }
+      ]
+    );
+  };
+
+  const handleSignup = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Prepare complete user profile data for Firebase
+      const signupData = {
+        email: email.trim().toLowerCase(),
+        password,
+        role: role.trim(),
+        startup: startup.trim()
+      };
+
+      console.log('Sending signup data to Firebase:', {
+        email: signupData.email,
+        role: signupData.role,
+        startup: signupData.startup,
+        // Don't log password for security
+      });
+
+      const response = await authService.signup(signupData);
+      
+      if (response.success) {
+        console.log('Signup successful! User profile saved to Firebase:', {
+          email: signupData.email,
+          role: signupData.role,
+          startup: signupData.startup,
+          userId: response.user?.id
+        });
+
+        Alert.alert(
+          'Account Created Successfully!', 
+          `Welcome to the platform! Your complete profile has been saved to Firebase:\n\n📧 Email: ${signupData.email}\n👤 Role: ${signupData.role}\n🏢 Company Type: ${signupData.startup}\n\nYou can now log in with your credentials.`,
+          [{ 
+            text: 'Go to Login', 
+            onPress: () => {
+              setActiveTab('login');
+              // Clear form
+              setEmail('');
+              setPassword('');
+              setRole('');
+              setStartup('');
+            }
+          }]
+        );
+      } else {
+        setError(response.message);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Check connection on component mount
+  useEffect(() => {
+    const checkApiConnection = async () => {
+      try {
+        setError('Checking server connection...');
+        const isConnected = await authService.checkConnection();
+        if (!isConnected) {
+          setError('⚠️ Backend service unavailable - Using mock authentication for development. You can still test the app functionality!');
+        } else {
+          setError(''); // Clear error if connection is successful
+        }
+      } catch (error) {
+        setError('⚠️ Backend service unavailable - Using mock authentication for development. You can still test the app functionality!');
+      }
+    };
+
+    checkApiConnection();
+  }, []);
+
+  // Handle tab switching with animations
   const handleTabSwitch = (newTab: string) => {
     if (newTab === activeTab) return;
     
@@ -152,6 +278,7 @@ const LoginSignupScreen = () => {
     setPassword('');
     setRole('');
     setStartup('');
+    setError('');
     
     // Animate tab switch
     Animated.parallel([
@@ -346,6 +473,27 @@ const LoginSignupScreen = () => {
                 </Text>
               </View>
             )}
+
+            {/* Error/Info Message */}
+            {error ? (
+              <View style={{
+                backgroundColor: error.includes('mock authentication') ? '#eff6ff' : '#fef2f2',
+                borderWidth: 1,
+                borderColor: error.includes('mock authentication') ? '#bfdbfe' : '#fecaca',
+                borderRadius: 8,
+                paddingHorizontal: 12,
+                paddingVertical: 10,
+                marginBottom: 20
+              }}>
+                <Text style={{
+                  color: error.includes('mock authentication') ? '#1e40af' : '#dc2626',
+                  fontSize: 14,
+                  fontWeight: '500'
+                }}>
+                  {error}
+                </Text>
+              </View>
+            ) : null}
 
             {/* Email Input */}
             <View style={{ marginBottom: 24 }}>
@@ -792,17 +940,15 @@ const LoginSignupScreen = () => {
           <Pressable 
             onPress={() => {
               if (activeTab === 'login') {
-                // For login, navigate to Startup Dashboard
-                navigation.navigate('StartupDashboard');
+                handleLogin();
               } else {
-                // For signup, navigate to Submit Subsidy
-                navigation.navigate('SubmitSubsidy');
+                confirmAndSignup();
               }
             }}
             style={{
               backgroundColor: activeTab === 'login' 
-                ? (email && password) ? '#38a3a5' : '#22577a'
-                : (email && password && role && startup) ? '#38a3a5' : '#22577a',
+                ? (email && password && !isLoading) ? '#38a3a5' : '#22577a'
+                : (email && password && role && startup && !isLoading) ? '#38a3a5' : '#22577a',
               paddingVertical: 16,
               borderRadius: 12,
               alignItems: 'center',
@@ -812,21 +958,33 @@ const LoginSignupScreen = () => {
               shadowRadius: 4,
               elevation: 3,
               opacity: activeTab === 'login' 
-                ? (email && password) ? 1 : 0.7
-                : (email && password && role && startup) ? 1 : 0.7
+                ? (email && password && !isLoading) ? 1 : 0.7
+                : (email && password && role && startup && !isLoading) ? 1 : 0.7
             }}
-            disabled={activeTab === 'login' 
+            disabled={isLoading || (activeTab === 'login' 
               ? !(email && password)
-              : !(email && password && role && startup)
+              : !(email && password && role && startup))
             }
           >
-            <Text style={{
-              color: '#ffffff',
-              fontSize: 18,
-              fontWeight: '600'
-            }}>
-              {activeTab === 'login' ? 'LOG IN' : 'SIGN UP'}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              {isLoading && (
+                <ActivityIndicator 
+                  size="small" 
+                  color="#ffffff" 
+                  style={{ marginRight: 8 }} 
+                />
+              )}
+              <Text style={{
+                color: '#ffffff',
+                fontSize: 18,
+                fontWeight: '600'
+              }}>
+                {isLoading 
+                  ? (activeTab === 'login' ? 'LOGGING IN...' : 'SIGNING UP...')
+                  : (activeTab === 'login' ? 'LOG IN' : 'SIGN UP')
+                }
+              </Text>
+            </View>
           </Pressable>
 
           <Pressable 
