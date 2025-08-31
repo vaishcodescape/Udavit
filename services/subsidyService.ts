@@ -4,7 +4,7 @@ const FALLBACK_API_URL = 'http://localhost:8000';
 const REQUEST_TIMEOUT = 30000; // 30 seconds
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
-const USE_MOCK_SUBSIDY = false; // Set to false when backend is available
+const USE_MOCK_SUBSIDY = true; // Set to false when backend is available
 
 export interface SubsidyApplicationRequest {
   companyName: string;

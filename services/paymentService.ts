@@ -4,6 +4,90 @@ const REQUEST_TIMEOUT = 30000; // 30 seconds
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
 
+// Mock data for demo purposes
+const MOCK_PAYMENT_METHODS: PaymentMethod[] = [
+  {
+    id: '1',
+    type: 'bank_transfer',
+    name: 'Bank Transfer',
+    isEnabled: true,
+    icon: '🏦'
+  },
+  {
+    id: '2',
+    type: 'upi',
+    name: 'UPI',
+    isEnabled: true,
+    icon: '📱'
+  },
+  {
+    id: '3',
+    type: 'crypto',
+    name: 'Cryptocurrency',
+    isEnabled: true,
+    icon: '₿'
+  },
+  {
+    id: '4',
+    type: 'card',
+    name: 'Credit/Debit Card',
+    isEnabled: true,
+    icon: '💳'
+  }
+];
+
+const MOCK_BANK_ACCOUNTS: BankAccount[] = [
+  {
+    id: '1',
+    accountNumber: '1234567890',
+    ifscCode: 'SBIN0001234',
+    bankName: 'State Bank of India',
+    accountHolderName: 'John Doe',
+    isDefault: true
+  },
+  {
+    id: '2',
+    accountNumber: '0987654321',
+    ifscCode: 'HDFC0005678',
+    bankName: 'HDFC Bank',
+    accountHolderName: 'John Doe',
+    isDefault: false
+  }
+];
+
+const MOCK_PAYMENT_HISTORY: PaymentHistory[] = [
+  {
+    id: '1',
+    amount: '5000',
+    currency: 'INR',
+    paymentMethod: 'Bank Transfer',
+    status: 'completed',
+    timestamp: '2024-01-15T10:30:00Z',
+    description: 'Subsidy payment for Q4 2023',
+    bankReference: 'TXN123456789'
+  },
+  {
+    id: '2',
+    amount: '3000',
+    currency: 'INR',
+    paymentMethod: 'UPI',
+    status: 'completed',
+    timestamp: '2024-01-10T14:20:00Z',
+    description: 'Application fee payment',
+    transactionHash: '0x1234567890abcdef'
+  },
+  {
+    id: '3',
+    amount: '7500',
+    currency: 'INR',
+    paymentMethod: 'Bank Transfer',
+    status: 'pending',
+    timestamp: '2024-01-20T09:15:00Z',
+    description: 'Subsidy payment for Q1 2024',
+    bankReference: 'TXN987654321'
+  }
+];
+
 // Payment interfaces
 export interface PaymentMethod {
   id: string;
@@ -139,48 +223,115 @@ class PaymentService {
 
   // Get available payment methods
   async getPaymentMethods(): Promise<ApiResponse<PaymentMethod[]>> {
-    return this.makeRequest<PaymentMethod[]>('/api/payments/methods', 'GET');
+    // Return mock data for demo purposes
+    return {
+      success: true,
+      message: 'Payment methods retrieved successfully',
+      data: MOCK_PAYMENT_METHODS
+    };
   }
 
   // Get user's bank accounts
   async getBankAccounts(userId?: string): Promise<ApiResponse<BankAccount[]>> {
-    return this.makeRequest<BankAccount[]>(`/api/payments/bank-accounts/${userId || 'me'}`, 'GET');
+    // Return mock data for demo purposes
+    return {
+      success: true,
+      message: 'Bank accounts retrieved successfully',
+      data: MOCK_BANK_ACCOUNTS
+    };
   }
 
   // Add new bank account
   async addBankAccount(accountData: Omit<BankAccount, 'id' | 'isDefault'>): Promise<ApiResponse<BankAccount>> {
-    return this.makeRequest<BankAccount>('/api/payments/bank-accounts', 'POST', accountData);
+    // Mock successful addition
+    const newAccount: BankAccount = {
+      ...accountData,
+      id: Date.now().toString(),
+      isDefault: false
+    };
+    return {
+      success: true,
+      message: 'Bank account added successfully',
+      data: newAccount
+    };
   }
 
   // Set default bank account
   async setDefaultBankAccount(accountId: string): Promise<ApiResponse<BankAccount>> {
-    return this.makeRequest<BankAccount>(`/api/payments/bank-accounts/${accountId}/default`, 'PUT');
+    // Mock successful update
+    const updatedAccount = MOCK_BANK_ACCOUNTS.find(acc => acc.id === accountId);
+    if (updatedAccount) {
+      updatedAccount.isDefault = true;
+      return {
+        success: true,
+        message: 'Default bank account updated successfully',
+        data: updatedAccount
+      };
+    }
+    return {
+      success: false,
+      message: 'Bank account not found',
+      error: 'Account not found'
+    };
   }
 
   // Process payment
   async processPayment(paymentRequest: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
-    return this.makeRequest<PaymentResponse>('/api/payments/process', 'POST', paymentRequest);
+    // Mock successful payment processing
+    const mockResponse: PaymentResponse = {
+      success: true,
+      message: 'Payment processed successfully',
+      paymentId: `PAY_${Date.now()}`,
+      transactionHash: `0x${Math.random().toString(16).substr(2, 40)}`,
+      status: 'processing',
+      estimatedCompletion: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+    };
+    return {
+      success: true,
+      message: 'Payment processed successfully',
+      data: mockResponse
+    };
   }
 
   // Get payment status
   async getPaymentStatus(paymentId: string): Promise<ApiResponse<PaymentResponse>> {
-    return this.makeRequest<PaymentResponse>(`/api/payments/status/${paymentId}`, 'GET');
+    // Mock payment status
+    const mockResponse: PaymentResponse = {
+      success: true,
+      message: 'Payment status retrieved successfully',
+      paymentId,
+      status: 'completed',
+      estimatedCompletion: new Date().toISOString()
+    };
+    return {
+      success: true,
+      message: 'Payment status retrieved successfully',
+      data: mockResponse
+    };
   }
 
   // Get payment history
   async getPaymentHistory(userId?: string, limit?: number): Promise<ApiResponse<PaymentHistory[]>> {
-    const params = new URLSearchParams();
-    if (limit) params.append('limit', limit.toString());
-    
-    const queryString = params.toString();
-    const endpoint = `/api/payments/history/${userId || 'me'}${queryString ? '?' + queryString : ''}`;
-    
-    return this.makeRequest<PaymentHistory[]>(endpoint, 'GET');
+    // Return mock data for demo purposes
+    let history = MOCK_PAYMENT_HISTORY;
+    if (limit) {
+      history = history.slice(0, limit);
+    }
+    return {
+      success: true,
+      message: 'Payment history retrieved successfully',
+      data: history
+    };
   }
 
   // Cancel pending payment
   async cancelPayment(paymentId: string): Promise<ApiResponse<{ success: boolean }>> {
-    return this.makeRequest<{ success: boolean }>(`/api/payments/${paymentId}/cancel`, 'PUT');
+    // Mock successful cancellation
+    return {
+      success: true,
+      message: 'Payment cancelled successfully',
+      data: { success: true }
+    };
   }
 
   // Get payment fees and limits
@@ -191,25 +342,29 @@ class PaymentService {
     maxAmount: string;
     estimatedTotal: string;
   }>> {
-    return this.makeRequest('/api/payments/fees', 'POST', {
-      paymentMethod,
-      amount,
-      currency
-    });
+    // Mock fee calculation
+    const feePercentage = 0.02; // 2% fee
+    const fee = (parseFloat(amount) * feePercentage).toFixed(2);
+    const estimatedTotal = (parseFloat(amount) + parseFloat(fee)).toFixed(2);
+    
+    return {
+      success: true,
+      message: 'Payment fees calculated successfully',
+      data: {
+        fee,
+        feePercentage: feePercentage * 100,
+        minAmount: '100',
+        maxAmount: '100000',
+        estimatedTotal
+      }
+    };
   }
 
   // Health check for payment service
   async checkConnection(): Promise<boolean> {
-    try {
-      console.log('Checking payment service connection...');
-      const response = await this.makeRequestWithTimeout('/api/payments/health', 'GET', undefined, 10000);
-      const isConnected = response.ok;
-      console.log(`Payment service connection check: ${isConnected ? 'SUCCESS' : 'FAILED'}`);
-      return isConnected;
-    } catch (error) {
-      console.error('Payment service connection check failed:', error instanceof Error ? error.message : 'Unknown error');
-      return false;
-    }
+    // Mock successful connection for demo
+    console.log('Payment service connection check: SUCCESS (mock)');
+    return true;
   }
 }
 

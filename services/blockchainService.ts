@@ -4,7 +4,7 @@ const FALLBACK_API_URL = 'http://localhost:8000';
 const REQUEST_TIMEOUT = 45000; // 45 seconds for blockchain operations
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
-const USE_MOCK_DATA = false; // Set to false when backend is available
+const USE_MOCK_DATA = true; // Set to false when backend is available
 
 // Blockchain-related interfaces
 export interface EthWallet {
