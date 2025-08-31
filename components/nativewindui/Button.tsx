@@ -11,10 +11,9 @@ import { TextClassContext } from './Text';
 const buttonVariants = cva('flex-row items-center justify-center gap-2', {
   variants: {
     variant: {
-      primary: 'ios:active:opacity-80 bg-custom-primary',
-      secondary: 'ios:border-custom-primary ios:active:bg-custom-primary/5 border border-custom-accent/40',
-      tonal:
-        'ios:bg-custom-primary/10 dark:ios:bg-custom-primary/10 ios:active:bg-custom-primary/15 bg-custom-primary/15 dark:bg-custom-primary/30',
+      primary: 'ios:active:opacity-80 bg-white',
+      secondary: 'ios:border-gray-300 ios:active:bg-gray-50 border border-gray-300',
+      tonal: 'ios:bg-gray-100 ios:active:bg-gray-200 bg-gray-100',
       plain: 'ios:active:opacity-70',
     },
     size: {
@@ -49,10 +48,10 @@ const androidRootVariants = cva('overflow-hidden', {
 const buttonTextVariants = cva('font-medium', {
   variants: {
     variant: {
-      primary: 'text-white',
-      secondary: 'ios:text-custom-primary text-custom-foreground',
-      tonal: 'ios:text-custom-primary text-custom-foreground',
-      plain: 'text-custom-foreground',
+      primary: 'text-black',
+      secondary: 'text-gray-700',
+      tonal: 'text-gray-700',
+      plain: 'text-gray-900',
     },
     size: {
       none: '',
@@ -110,7 +109,7 @@ type ButtonVariantProps = Omit<VariantProps<typeof buttonVariants>, 'variant'> &
 
 type AndroidOnlyButtonProps = {
   /**
-   * ANDROID ONLY: The class name of root responsible for hidding the ripple overflow.
+   * ANDROID ONLY: The class name of root responsible for hiding the ripple overflow.
    */
   androidRootClassName?: string;
 };

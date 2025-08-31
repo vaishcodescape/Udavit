@@ -1,9 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AlertCircle, ArrowLeft, BarChart3, Bell, CheckCircle, Clock, TrendingUp } from 'lucide-react-native';
+import { AlertCircle, ArrowLeft, BarChart3, Bell, CheckCircle, Clock, TrendingUp, CreditCard, Wallet, Banknote, ArrowUpRight } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { RootStackParamList } from '../App';
+import { paymentService, PaymentMethod, BankAccount, PaymentHistory } from '../services/paymentService';
 
 // Types for API data
 interface StartupData {
@@ -44,6 +45,9 @@ const StartupDashboardScreen = () => {
   });
   
   const [recentApplications, setRecentApplications] = useState<Application[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+  const [paymentHistory, setPaymentHistory] = useState<PaymentHistory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -83,6 +87,31 @@ const StartupDashboardScreen = () => {
       console.error('Error fetching recent applications:', err);
     }
   };
+
+  const fetchPaymentData = async () => {
+    try {
+      const [paymentMethodsResponse, bankAccountsResponse, paymentHistoryResponse] = await Promise.all([
+        paymentService.getPaymentMethods(),
+        paymentService.getBankAccounts(),
+        paymentService.getPaymentHistory()
+      ]);
+
+      if (paymentMethodsResponse.success && paymentMethodsResponse.data) {
+        setPaymentMethods(paymentMethodsResponse.data);
+      }
+
+      if (bankAccountsResponse.success && bankAccountsResponse.data) {
+        setBankAccounts(bankAccountsResponse.data);
+      }
+
+      if (paymentHistoryResponse.success && paymentHistoryResponse.data) {
+        setPaymentHistory(paymentHistoryResponse.data);
+      }
+      
+    } catch (err) {
+      console.error('Error fetching payment data:', err);
+    }
+  };
   
   useEffect(() => {
     // Start animations when component mounts
@@ -109,6 +138,7 @@ const StartupDashboardScreen = () => {
     // Fetch data when component mounts
     fetchStartupData();
     fetchRecentApplications();
+    fetchPaymentData(); // Added this line to fetch payment data
   }, []);
 
   const getStatusColor = (status: string) => {
@@ -379,6 +409,335 @@ const StartupDashboardScreen = () => {
               }}>
                 Milestones
               </Text>
+            </View>
+          </View>
+        </Animated.View>
+
+        {/* Payment Status Overview */}
+        <Animated.View 
+          style={{ 
+            paddingHorizontal: 20,
+            marginBottom: 20,
+            opacity: staggerAnim,
+            transform: [{ translateY: staggerAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [20, 0]
+            })}]
+          }}
+        >
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+          }}>
+            {/* Payment Methods Count */}
+            <View style={{
+              flex: 1,
+              backgroundColor: '#ffffff',
+              borderRadius: 12,
+              padding: 16,
+              marginRight: 8,
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+              elevation: 2
+            }}>
+              <CreditCard size={24} color="#9333ea" />
+              <Text style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: '#9333ea',
+                marginTop: 8
+              }}>
+                {paymentMethods.length || 0}
+              </Text>
+              <Text style={{
+                fontSize: 12,
+                color: '#6b7280',
+                textAlign: 'center'
+              }}>
+                Payment Methods
+              </Text>
+            </View>
+
+            {/* Bank Accounts */}
+            <View style={{
+              flex: 1,
+              backgroundColor: '#ffffff',
+              borderRadius: 12,
+              padding: 16,
+              marginHorizontal: 4,
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+              elevation: 2
+            }}>
+              <Banknote size={24} color="#d97706" />
+              <Text style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: '#d97706',
+                marginTop: 8
+              }}>
+                {bankAccounts.length || 0}
+              </Text>
+              <Text style={{
+                fontSize: 12,
+                color: '#6b7280',
+                textAlign: 'center'
+              }}>
+                Bank Accounts
+              </Text>
+            </View>
+
+            {/* Recent Payments */}
+            <View style={{
+              flex: 1,
+              backgroundColor: '#ffffff',
+              borderRadius: 12,
+              padding: 16,
+              marginLeft: 8,
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+              elevation: 2
+            }}>
+              <Wallet size={24} color="#16a34a" />
+              <Text style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: '#16a34a',
+                marginTop: 8
+              }}>
+                {paymentHistory.length || 0}
+              </Text>
+              <Text style={{
+                fontSize: 12,
+                color: '#6b7280',
+                textAlign: 'center'
+              }}>
+                Recent Payments
+              </Text>
+            </View>
+          </View>
+        </Animated.View>
+
+        {/* Payment Interface Section - Show when milestones are fulfilled */}
+        <Animated.View 
+          style={{ 
+            paddingHorizontal: 20,
+            marginBottom: 20,
+            opacity: staggerAnim,
+            transform: [{ translateY: staggerAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [20, 0]
+            })}]
+          }}
+        >
+          <View style={{
+            backgroundColor: '#ffffff',
+            borderRadius: 16,
+            padding: 20,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 3
+          }}>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 16
+            }}>
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}>
+                <CreditCard size={24} color="#065f46" />
+                <Text style={{
+                  fontSize: 18,
+                  fontWeight: '600',
+                  color: '#065f46',
+                  marginLeft: 8
+                }}>
+                  💰 ETH Rewards & Payments
+                </Text>
+              </View>
+              <Pressable 
+                onPress={() => navigation.navigate('PaymentStatus')}
+                style={{
+                  backgroundColor: '#065f46',
+                  paddingHorizontal: 12,
+                  paddingVertical: 6,
+                  borderRadius: 8,
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}
+              >
+                <Text style={{
+                  color: '#ffffff',
+                  fontSize: 12,
+                  fontWeight: '500',
+                  marginRight: 4
+                }}>
+                  View Payment Interface
+                </Text>
+                <ArrowUpRight size={14} color="#ffffff" />
+              </Pressable>
+            </View>
+
+            {/* Payment Methods Overview */}
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginBottom: 16
+            }}>
+              {/* Crypto Payments */}
+              <View style={{
+                flex: 1,
+                backgroundColor: '#f0fdf4',
+                borderRadius: 12,
+                padding: 16,
+                marginRight: 8,
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: '#dcfce7'
+              }}>
+                <Wallet size={20} color="#16a34a" />
+                <Text style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: '#16a34a',
+                  marginTop: 8,
+                  textAlign: 'center'
+                }}>
+                  Crypto Wallet
+                </Text>
+                <Text style={{
+                  fontSize: 12,
+                  color: '#6b7280',
+                  textAlign: 'center',
+                  marginTop: 4
+                }}>
+                  ETH Rewards
+                </Text>
+              </View>
+
+              {/* Bank Transfers */}
+              <View style={{
+                flex: 1,
+                backgroundColor: '#fef3c7',
+                borderRadius: 12,
+                padding: 16,
+                marginHorizontal: 4,
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: '#fde68a'
+              }}>
+                <Banknote size={20} color="#d97706" />
+                <Text style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: '#d97706',
+                  marginTop: 8,
+                  textAlign: 'center'
+                }}>
+                  Bank Transfer
+                </Text>
+                <Text style={{
+                  fontSize: 12,
+                  color: '#6b7280',
+                  textAlign: 'center',
+                  marginTop: 4
+                }}>
+                  Traditional Banking
+                </Text>
+              </View>
+
+              {/* UPI Payments */}
+              <View style={{
+                flex: 1,
+                backgroundColor: '#f3e8ff',
+                borderRadius: 12,
+                padding: 16,
+                marginLeft: 8,
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: '#e9d5ff'
+              }}>
+                <CreditCard size={20} color="#9333ea" />
+                <Text style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: '#9333ea',
+                  marginTop: 8,
+                  textAlign: 'center'
+                }}>
+                  UPI/Cards
+                </Text>
+                <Text style={{
+                  fontSize: 12,
+                  color: '#6b7280',
+                  textAlign: 'center',
+                  marginTop: 4
+                }}>
+                  Digital Payments
+                </Text>
+              </View>
+            </View>
+
+            {/* Quick Payment Actions */}
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}>
+              <Pressable 
+                onPress={() => navigation.navigate('PaymentStatus')}
+                style={{
+                  flex: 1,
+                  backgroundColor: '#065f46',
+                  paddingVertical: 12,
+                  borderRadius: 8,
+                  alignItems: 'center',
+                  marginRight: 8
+                }}
+              >
+                <Text style={{
+                  color: '#ffffff',
+                  fontSize: 14,
+                  fontWeight: '500'
+                }}>
+                  Manage Payments
+                </Text>
+              </Pressable>
+              
+              <Pressable 
+                onPress={() => navigation.navigate('MilestoneTracking')}
+                style={{
+                  flex: 1,
+                  backgroundColor: '#f0fdf4',
+                  paddingVertical: 12,
+                  borderRadius: 8,
+                  alignItems: 'center',
+                  marginLeft: 8,
+                  borderWidth: 1,
+                  borderColor: '#dcfce7'
+                }}
+              >
+                <Text style={{
+                  color: '#065f46',
+                  fontSize: 14,
+                  fontWeight: '500'
+                }}>
+                  Track Milestones
+                </Text>
+              </Pressable>
             </View>
           </View>
         </Animated.View>

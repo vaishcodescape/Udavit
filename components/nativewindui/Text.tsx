@@ -1,13 +1,10 @@
 import { VariantProps, cva } from 'class-variance-authority';
-import { cssInterop } from 'nativewind';
 import * as React from 'react';
-import { UITextView } from 'react-native-uitextview';
+import { Text as RNText } from 'react-native';
 
 import { cn } from '../../lib/cn';
 
-cssInterop(UITextView, { className: 'style' });
-
-const textVariants = cva('text-foreground', {
+const textVariants = cva('text-gray-900', {
   variants: {
     variant: {
       largeTitle: 'text-4xl',
@@ -23,10 +20,10 @@ const textVariants = cva('text-foreground', {
       caption2: 'text-[11px] leading-4',
     },
     color: {
-      primary: '',
-      secondary: 'text-secondary-foreground/90',
-      tertiary: 'text-muted-foreground/90',
-      quarternary: 'text-muted-foreground/50',
+      primary: 'text-gray-900',
+      secondary: 'text-gray-600',
+      tertiary: 'text-gray-500',
+      quarternary: 'text-gray-400',
     },
   },
   defaultVariants: {
@@ -42,10 +39,10 @@ function Text({
   variant,
   color,
   ...props
-}: React.ComponentPropsWithoutRef<typeof UITextView> & VariantProps<typeof textVariants>) {
+}: React.ComponentPropsWithoutRef<typeof RNText> & VariantProps<typeof textVariants>) {
   const textClassName = React.useContext(TextClassContext);
   return (
-    <UITextView
+    <RNText
       className={cn(textVariants({ variant, color }), textClassName, className)}
       {...props}
     />

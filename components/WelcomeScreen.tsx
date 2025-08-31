@@ -397,7 +397,7 @@ const WelcomeScreen = () => {
                  fontWeight: '500',
                  letterSpacing: 2,
                }}>
-                 Empowering Green Innovation
+                 Subsidized,Secured & Automated
                </Text>
              </Animated.View>
              

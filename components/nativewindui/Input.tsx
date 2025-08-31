@@ -44,7 +44,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
         <TextInput
           className={cn(
             inputVariants({ variant: error ? 'error' : variant, size }),
-            'text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+            'placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
             className
           )}
           ref={ref}
