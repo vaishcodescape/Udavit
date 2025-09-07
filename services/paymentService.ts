@@ -1,5 +1,6 @@
 // Payment service for handling various payment methods
-const API_BASE_URL = 'https://smartcontract-backend.onrender.com';
+import { BLOCKCHAIN_API_BASE_URL, buildApiUrl } from './apiConfig';
+const API_BASE_URL = BLOCKCHAIN_API_BASE_URL;
 const REQUEST_TIMEOUT = 30000; // 30 seconds
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
@@ -157,7 +158,7 @@ class PaymentService {
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      const response = await fetch(buildApiUrl(API_BASE_URL, endpoint), {
         method,
         headers: {
           'Content-Type': 'application/json',

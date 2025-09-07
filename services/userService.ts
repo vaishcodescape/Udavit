@@ -1,5 +1,6 @@
 // User service for handling dashboard API calls
-const API_BASE_URL = 'https://udavit-backend.onrender.com';
+import { BACKEND_API_BASE_URL, buildApiUrl } from './apiConfig';
+const API_BASE_URL = BACKEND_API_BASE_URL;
 const FALLBACK_API_URL = 'http://localhost:8000';
 const REQUEST_TIMEOUT = 30000; // 30 seconds
 const MAX_RETRIES = 3;
@@ -239,7 +240,7 @@ class UserService {
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      const response = await fetch(buildApiUrl(API_BASE_URL, endpoint), {
         method,
         headers: {
           'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 // Blockchain service for handling ETH withdrawals and smart contract interactions
-const API_BASE_URL = 'https://smartcontract-backend.onrender.com';
+import { BLOCKCHAIN_API_BASE_URL, buildApiUrl } from './apiConfig';
+const API_BASE_URL = BLOCKCHAIN_API_BASE_URL;
 const FALLBACK_API_URL = 'http://localhost:8000';
 const REQUEST_TIMEOUT = 45000; // 45 seconds for blockchain operations
 const MAX_RETRIES = 3;
@@ -213,7 +214,7 @@ class BlockchainService {
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      const response = await fetch(buildApiUrl(API_BASE_URL, endpoint), {
         method,
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 // Authentication service for handling API calls
+import { BACKEND_API_BASE_URL, buildApiUrl } from './apiConfig';
 // Note: Backend service appears to be unavailable. Using mock service for development.
-const API_BASE_URL = 'https://udavit-backend.onrender.com';
+const API_BASE_URL = BACKEND_API_BASE_URL;
 const FALLBACK_API_URL = 'http://localhost:8000'; // Local development fallback
 const REQUEST_TIMEOUT = 60000; // 60 seconds (increased for Render.com cold starts)
 const MAX_RETRIES = 3;
@@ -196,7 +197,7 @@ class AuthService {
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      const response = await fetch(buildApiUrl(API_BASE_URL, endpoint), {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -324,7 +325,7 @@ class AuthService {
     // Wake up the backend service before attempting login (helps with Render.com cold starts)
     await this.wakeUpBackend();
 
-    return this.makeRequest('/auth/login', 'POST', credentials);
+    return this.makeRequest('/api/auth/login', 'POST', credentials);
   }
 
   async signup(userData: SignupRequest): Promise<AuthResponse> {
@@ -369,14 +370,14 @@ class AuthService {
       }
     };
 
-    return this.makeRequest('/auth/signup', 'POST', completeUserData);
+    return this.makeRequest('/api/auth/signup', 'POST', completeUserData);
   }
 
   // Helper method to check if the API is reachable
   async checkConnection(): Promise<boolean> {
     try {
       console.log('Checking backend connection...');
-      const response = await this.makeRequestWithTimeout('/health', 'GET', undefined, 10000);
+      const response = await this.makeRequestWithTimeout('/api/health', 'GET', undefined, 10000);
       const isConnected = response.ok;
       console.log(`Backend connection check: ${isConnected ? 'SUCCESS' : 'FAILED'}`);
       return isConnected;
@@ -390,7 +391,7 @@ class AuthService {
   async wakeUpBackend(): Promise<void> {
     try {
       console.log('Attempting to wake up backend service...');
-      await this.makeRequestWithTimeout('/health', 'GET', undefined, 15000);
+      await this.makeRequestWithTimeout('/api/health', 'GET', undefined, 15000);
       console.log('Backend wake-up attempt completed');
     } catch (error) {
       console.log('Backend wake-up failed, but continuing with auth request:', error instanceof Error ? error.message : 'Unknown error');

@@ -1,5 +1,6 @@
 // LLM service for document analysis and AI-powered evaluation
-const API_BASE_URL = 'https://udavit-backend.onrender.com';
+import { BACKEND_API_BASE_URL, buildApiUrl } from './apiConfig';
+const API_BASE_URL = BACKEND_API_BASE_URL;
 const FALLBACK_API_URL = 'http://localhost:8000';
 const HUGGINGFACE_API_URL = 'https://api-inference.huggingface.co/models';
 const REQUEST_TIMEOUT = 45000; // 45 seconds for LLM processing
@@ -322,7 +323,7 @@ class LLMService {
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      const response = await fetch(buildApiUrl(API_BASE_URL, endpoint), {
         method,
         headers: {
           'Content-Type': 'application/json',
