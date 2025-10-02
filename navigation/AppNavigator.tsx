@@ -1,14 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import ApplicationStatusScreen from '../components/ApplicationStatusScreen';
-import LoginSignupScreen from '../components/LoginSignupScreen';
-import MilestoneTrackingScreen from '../components/MilestoneTrackingScreen';
-import OnBoardingScreen from '../components/OnBoardingScreen';
-import PaymentStatusScreen from '../components/PaymentStatusScreen';
-import ProfileSettingsScreen from '../components/ProfileSettingsScreen';
-import SubmitSubsidyScreen from '../components/SubmitSubsidyScreen';
-import WelcomeScreen from '../components/WelcomeScreen';
+import ApplicationStatusScreen from '../pages/ApplicationStatusScreen';
+import LoginSignupScreen from '../pages/LoginSignupScreen';
+import MilestoneTrackingScreen from '../pages/MilestoneTrackingScreen';
+import OnBoardingScreen from '../pages/OnBoardingScreen';
+import PaymentStatusScreen from '../pages/PaymentStatusScreen';
+import ProfileSettingsScreen from '../pages/ProfileSettingsScreen';
+import SubmitSubsidyScreen from '../pages/SubmitSubsidyScreen';
+import WelcomeScreen from '../pages/WelcomeScreen';
 
 export type RootStackParamList = {
   Welcome: undefined;

@@ -6,11 +6,11 @@ import { Alert, Animated, SafeAreaView, ScrollView, View } from 'react-native';
 import { RootStackParamList } from '../App';
 import { blockchainService, EthWallet, SmartContractInfo, WithdrawalHistory } from '../services/blockchainService';
 import { BankAccount, PaymentHistory, PaymentMethod, paymentService } from '../services/paymentService';
-import { Badge } from './nativewindui/Badge';
-import { Button } from './nativewindui/Button';
-import { Card, CardContent, CardHeader, CardTitle } from './nativewindui/Card';
-import { Input } from './nativewindui/Input';
-import { Text } from './nativewindui/Text';
+import { Badge } from '../src/components/ui/badge';
+import { Button } from '../src/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../src/components/ui/card';
+import { Input } from '../src/components/ui/input';
+import { Text as UIText } from '../src/components/ui/text';
 
 const PaymentStatusScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

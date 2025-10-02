@@ -1,6 +1,11 @@
-import { CheckCircle, Clock } from 'lucide-react-native';
+import { CheckCircle, Clock, ArrowLeft } from 'lucide-react-native';
 import { useEffect, useRef } from 'react';
 import { Animated, Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Button } from '../src/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../src/components/ui/card';
+import { Text as UIText } from '../src/components/ui/text';
+import { Badge } from '../src/components/ui/badge';
+import { Progress } from '../src/components/ui/progress';
 
 const ApplicationStatusScreen = () => {
   // Animation values

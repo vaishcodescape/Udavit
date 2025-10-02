@@ -3,18 +3,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import ApplicationStatusScreen from './components/ApplicationStatusScreen';
-import LoginSignupScreen from './components/LoginSignupScreen';
-import MilestoneTrackingScreen from './components/MilestoneTrackingScreen';
-import NotificationsCenterScreen from './components/NotificationsCenterScreen';
-import OnBoardingScreen from './components/OnBoardingScreen';
-import PaymentStatusScreen from './components/PaymentStatusScreen';
-import ProfileSettingsScreen from './components/ProfileSettingsScreen';
-import SplashScreen from './components/SplashScreen';
-import StartupDashboardScreen from './components/StartupDashboardScreen';
-import SubmitSubsidyScreen from './components/SubmitSubsidyScreen';
-import WelcomeScreen from './components/WelcomeScreen';
 import './global.css';
+import ApplicationStatusScreen from './pages/ApplicationStatusScreen';
+import LoginSignupScreen from './pages/LoginSignupScreen';
+import MilestoneTrackingScreen from './pages/MilestoneTrackingScreen';
+import NotificationsCenterScreen from './pages/NotificationsCenterScreen';
+import OnBoardingScreen from './pages/OnBoardingScreen';
+import PaymentStatusScreen from './pages/PaymentStatusScreen';
+import ProfileSettingsScreen from './pages/ProfileSettingsScreen';
+import SplashScreen from './pages/SplashScreen';
+import StartupDashboardScreen from './pages/StartupDashboardScreen';
+import SubmitSubsidyScreen from './pages/SubmitSubsidyScreen';
+import WelcomeScreen from './pages/WelcomeScreen';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -40,7 +40,10 @@ export default function App() {
           initialRouteName="Splash"
           screenOptions={{
             headerShown: false,
-            contentStyle: { backgroundColor: 'transparent' },
+            contentStyle: { backgroundColor: '#f0fdf4' },
+            animation: 'slide_from_right',
+            gestureEnabled: true,
+            gestureDirection: 'horizontal',
           }}
         >
           <Stack.Screen name="Splash" component={SplashScreen} />

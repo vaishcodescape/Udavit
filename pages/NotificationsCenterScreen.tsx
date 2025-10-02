@@ -4,6 +4,10 @@ import { AlertCircle, ArrowLeft, Bell, CheckCircle, FileText, Info, Lock, Settin
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { RootStackParamList } from '../App';
+import { Button } from '../src/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../src/components/ui/card';
+import { Text as UIText } from '../src/components/ui/text';
+import { Badge } from '../src/components/ui/badge';
 
 const NotificationsCenterScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

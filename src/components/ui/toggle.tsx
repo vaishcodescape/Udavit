@@ -1,91 +1,75 @@
-import { cn } from "~/lib/utils";
-import * as React from "react";
-import { Platform, Pressable, View } from "react-native";
+import { Icon } from '~/components/ui/icon';
+import { TextClassContext } from '~/components/ui/text';
+import { cn } from '~/lib/utils';
+import * as TogglePrimitive from '@rn-primitives/toggle';
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+import { Platform } from 'react-native';
 
-interface ToggleProps {
-  pressed?: boolean;
-  onPressedChange?: (pressed: boolean) => void;
-  disabled?: boolean;
-  children?: React.ReactNode;
-  className?: string;
-  variant?: "default" | "outline";
-  size?: "default" | "sm" | "lg";
-}
-
-const Toggle = React.forwardRef<View, ToggleProps>(
-  (
-    {
-      pressed,
-      onPressedChange,
-      disabled,
-      children,
-      className,
-      variant = "default",
-      size = "default",
-      ...props
+const toggleVariants = cva(
+  cn(
+    'active:bg-muted group flex flex-row items-center justify-center gap-2 rounded-md',
+    Platform.select({
+      web: 'hover:bg-muted hover:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex cursor-default whitespace-nowrap outline-none transition-[color,box-shadow] focus-visible:ring-[3px] disabled:pointer-events-none [&_svg]:pointer-events-none',
+    })
+  ),
+  {
+    variants: {
+      variant: {
+        default: 'bg-transparent',
+        outline: cn(
+          'border-input active:bg-accent border bg-transparent shadow-sm shadow-black/5',
+          Platform.select({
+            web: 'hover:bg-accent hover:text-accent-foreground',
+          })
+        ),
+      },
+      size: {
+        default: 'h-10 min-w-10 px-2.5 sm:h-9 sm:min-w-9 sm:px-2',
+        sm: 'h-9 min-w-9 px-2 sm:h-8 sm:min-w-8 sm:px-1.5',
+        lg: 'h-11 min-w-11 px-3 sm:h-10 sm:min-w-10 sm:px-2.5',
+      },
     },
-    ref
-  ) => {
-    const [isPressed, setIsPressed] = React.useState(pressed);
-
-    React.useEffect(() => {
-      setIsPressed(pressed);
-    }, [pressed]);
-
-    const handlePress = () => {
-      if (disabled) return;
-      const newValue = !isPressed;
-      setIsPressed(newValue);
-      onPressedChange?.(newValue);
-    };
-
-    const getSizeStyles = () => {
-      switch (size) {
-        case "sm":
-          return Platform.OS === "ios" ? "h-10 px-3" : "h-12 px-3";
-        case "lg":
-          return Platform.OS === "ios" ? "h-12 px-4" : "h-14 px-4";
-        default:
-          return Platform.OS === "ios" ? "h-11 px-3.5" : "h-13 px-3.5";
-      }
-    };
-
-    const getVariantStyles = () => {
-      switch (variant) {
-        case "outline":
-          return isPressed
-            ? "border border-toggle-border bg-toggle-active/20"
-            : "border border-toggle-border bg-background/10";
-        default:
-          return isPressed
-            ? "bg-toggle-active/20"
-            : "bg-background/10";
-      }
-    };
-
-    return (
-      <Pressable
-        ref={ref}
-        onPress={handlePress}
-        disabled={disabled}
-        className={cn(
-          "flex-row items-center justify-center rounded-lg",
-          getSizeStyles(),
-          getVariantStyles(),
-          isPressed
-            ? "text-toggle-active-foreground"
-            : "text-foreground",
-          disabled && "opacity-50 bg-muted text-muted-foreground",
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </Pressable>
-    );
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
   }
 );
 
-Toggle.displayName = "Toggle";
+function Toggle({
+  className,
+  variant,
+  size,
+  ...props
+}: TogglePrimitive.RootProps &
+  VariantProps<typeof toggleVariants> &
+  React.RefAttributes<TogglePrimitive.RootRef>) {
+  return (
+    <TextClassContext.Provider
+      value={cn(
+        'text-sm text-foreground font-medium',
+        props.pressed
+          ? 'text-accent-foreground'
+          : Platform.select({ web: 'group-hover:text-muted-foreground' }),
+        className
+      )}>
+      <TogglePrimitive.Root
+        className={cn(
+          toggleVariants({ variant, size }),
+          props.disabled && 'opacity-50',
+          props.pressed && 'bg-accent',
+          className
+        )}
+        {...props}
+      />
+    </TextClassContext.Provider>
+  );
+}
 
-export { Toggle };
+function ToggleIcon({ className, ...props }: React.ComponentProps<typeof Icon>) {
+  const textClass = React.useContext(TextClassContext);
+  return <Icon className={cn('size-4 shrink-0', textClass, className)} {...props} />;
+}
+
+export { Toggle, ToggleIcon, toggleVariants };

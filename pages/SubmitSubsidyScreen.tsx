@@ -6,6 +6,12 @@ import { ActivityIndicator, Alert, Animated, Modal, Pressable, SafeAreaView, Scr
 import { RootStackParamList } from '../App';
 import { DocumentAnalysisResult, llmService } from '../services/llmService';
 import { subsidyService } from '../services/subsidyService';
+import { Button } from '../src/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../src/components/ui/card';
+import { Input } from '../src/components/ui/input';
+import { Text as UIText } from '../src/components/ui/text';
+import { Badge } from '../src/components/ui/badge';
+import { Progress } from '../src/components/ui/progress';
 
 
 const SubmitSubsidyScreen = () => {
