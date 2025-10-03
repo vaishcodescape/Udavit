@@ -161,7 +161,7 @@ const LoginSignupScreen = () => {
             onPress={() => navigation.goBack()}
             className="flex-row items-center mb-5"
           >
-            <ArrowLeft size={24} color="#065f46" />
+            <ArrowLeft size={24} className="text-teal-700" />
             <UIText className="text-primary font-semibold ml-2">Back</UIText>
           </Pressable>
         </View>
@@ -244,7 +244,7 @@ const LoginSignupScreen = () => {
                 {/* Email Input */}
                 <View className="space-y-2">
                   <Label className="flex-row items-center">
-                    <Mail size={16} color="#065f46" />
+                    <Mail size={16} className="text-teal-700" />
                     <UIText className="text-sm font-medium text-primary ml-2">Email</UIText>
                   </Label>
                   <Input
@@ -260,7 +260,7 @@ const LoginSignupScreen = () => {
                 {/* Password Input */}
                 <View className="space-y-2">
                   <Label className="flex-row items-center">
-                    <Lock size={16} color="#065f46" />
+                    <Lock size={16} className="text-teal-700" />
                     <UIText className="text-sm font-medium text-primary ml-2">Password</UIText>
                   </Label>
                   <View className="relative">
@@ -278,7 +278,7 @@ const LoginSignupScreen = () => {
                       onPress={() => setShowPassword(v => !v)}
                       className="absolute right-3 top-3"
                     >
-                      {showPassword ? <Eye size={20} color="#6b7280" /> : <EyeOff size={20} color="#6b7280" />}
+                      {showPassword ? <Eye size={20} className="text-gray-500" /> : <EyeOff size={20} className="text-gray-500" />}
                     </Pressable>
                   </View>
                 </View>
@@ -287,7 +287,7 @@ const LoginSignupScreen = () => {
                 {activeTab === 'signup' && (
                   <View className="space-y-2">
                     <Label className="flex-row items-center">
-                      <User size={16} color="#065f46" />
+                      <User size={16} className="text-teal-700" />
                       <UIText className="text-sm font-medium text-primary ml-2">Chemical Industry Role</UIText>
                     </Label>
                     <Select value={roleOptions.find(opt => opt.value === role)} onValueChange={(option) => setRole(option?.value || '')}>
@@ -309,7 +309,7 @@ const LoginSignupScreen = () => {
                 {activeTab === 'signup' && (
                   <View className="space-y-2">
                     <Label className="flex-row items-center">
-                      <Building2 size={16} color="#065f46" />
+                      <Building2 size={16} className="text-teal-700" />
                       <UIText className="text-sm font-medium text-primary ml-2">Hydrogen & Chemical Company</UIText>
                     </Label>
                     <Select value={startupOptions.find(opt => opt.value === startup)} onValueChange={(option) => setStartup(option?.value || '')}>
@@ -351,10 +351,9 @@ const LoginSignupScreen = () => {
                 size="lg"
               >
                 {isLoading && (
-                  <ActivityIndicator 
-                    size="small" 
-                    color="#ffffff" 
-                    className="mr-2"
+                  <ActivityIndicator
+                    size="small"
+                    className="mr-2 text-white"
                   />
                 )}
                 <UIText className="text-white font-bold text-lg">

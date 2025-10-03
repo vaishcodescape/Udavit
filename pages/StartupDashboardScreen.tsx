@@ -153,7 +153,7 @@ const StartupDashboardScreen = () => {
             onPress={() => navigation.goBack()}
             className="mr-5"
           >
-            <ArrowLeft size={24} color="#065f46" />
+            <ArrowLeft size={24} className="text-teal-700" />
           </Pressable>
 
           <View className="flex-1">
@@ -169,7 +169,7 @@ const StartupDashboardScreen = () => {
             onPress={() => navigation.navigate('NotificationsCenter')}
             className="w-10 h-10 bg-white rounded-full items-center justify-center shadow-lg"
           >
-            <Bell size={20} color="#065f46" />
+            <Bell size={20} className="text-teal-700" />
           </Pressable>
         </View>
 
@@ -178,7 +178,7 @@ const StartupDashboardScreen = () => {
           <Card className="bg-white border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-primary flex-row items-center">
-                <Sparkles size={24} color="#065f46" className="mr-2" />
+                <Sparkles size={24} className="text-teal-700 mr-2" />
                 {startupData?.founder ? `Welcome ${startupData.founder}` : 'Welcome'}
               </CardTitle>
               <CardDescription className="text-base">
@@ -198,7 +198,7 @@ const StartupDashboardScreen = () => {
             <Card className="flex-1 bg-white border-0 shadow-md">
               <CardContent className="p-4 items-center">
                 <View className="w-12 h-12 bg-primary/10 rounded-full items-center justify-center mb-2">
-                  <BarChart3 size={24} color="#065f46" />
+                  <BarChart3 size={24} className="text-teal-700" />
                 </View>
                 <UIText variant="h2" className="text-primary font-bold">
                   {startupData?.applications || 0}
@@ -213,7 +213,7 @@ const StartupDashboardScreen = () => {
             <Card className="flex-1 bg-white border-0 shadow-md">
               <CardContent className="p-4 items-center">
                 <View className="w-12 h-12 bg-green-100 rounded-full items-center justify-center mb-2">
-                  <DollarSign size={24} color="#10b981" />
+                  <DollarSign size={24} className="text-green-600" />
                 </View>
                 <UIText variant="h4" className="text-green-600 font-bold">
                   {startupData?.totalFunding || 'ETH 0'}
@@ -228,7 +228,7 @@ const StartupDashboardScreen = () => {
             <Card className="flex-1 bg-white border-0 shadow-md">
               <CardContent className="p-4 items-center">
                 <View className="w-12 h-12 bg-amber-100 rounded-full items-center justify-center mb-2">
-                  <Target size={24} color="#f59e0b" />
+                  <Target size={24} className="text-amber-600" />
                 </View>
                 <UIText variant="h4" className="text-amber-600 font-bold">
                   {startupData?.completedMilestones || 0}/{startupData?.milestones || 0}
@@ -289,7 +289,7 @@ const StartupDashboardScreen = () => {
             size="lg"
           >
             <UIText className="text-white font-bold text-lg">Submit Application</UIText>
-            <ArrowUpRight size={20} color="#ffffff" />
+            <ArrowUpRight size={20} className="text-white" />
           </Button>
         </View>
       </View>

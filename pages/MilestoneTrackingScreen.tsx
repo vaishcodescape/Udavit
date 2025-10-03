@@ -123,8 +123,8 @@ const MilestoneTrackingScreen = () => {
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1">
-        <View className="flex-1 bg-green-100 justify-center items-center">
-          <UIText className="text-lg text-green-800">Loading milestones...</UIText>
+        <View className="flex-1 bg-green-50 justify-center items-center">
+          <UIText className="text-lg text-primary">Loading milestones...</UIText>
         </View>
       </SafeAreaView>
     );
@@ -145,10 +145,10 @@ const MilestoneTrackingScreen = () => {
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="flex-1 bg-green-100">
+      <View className="flex-1 bg-green-50">
         {/* Header */}
         <View className={`items-center pt-10 pb-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
-          <UIText className="text-2xl font-bold text-green-800">
+          <UIText className="text-2xl font-bold text-primary">
             Milestone Tracking
           </UIText>
         </View>
@@ -159,7 +159,7 @@ const MilestoneTrackingScreen = () => {
           {milestones.length > 0 && (
             <Card className="bg-white rounded-xl p-5 mb-6 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl text-green-800 font-semibold">
+                <CardTitle className="text-xl text-primary font-semibold">
                   Select Milestone
                 </CardTitle>
               </CardHeader>
@@ -171,13 +171,13 @@ const MilestoneTrackingScreen = () => {
                       onPress={() => handleMilestoneSelect(milestone)}
                       className={`mr-3 p-3 rounded-lg border-2 ${
                         selectedMilestone?.id === milestone.id
-                          ? 'border-green-500 bg-green-50'
+                          ? 'border-primary bg-primary/10'
                           : 'border-gray-200 bg-white'
                       }`}
                     >
                       <UIText className={`font-semibold ${
                         selectedMilestone?.id === milestone.id
-                          ? 'text-green-800'
+                          ? 'text-primary'
                           : 'text-gray-700'
                       }`}>
                         {milestone.title}
@@ -196,7 +196,7 @@ const MilestoneTrackingScreen = () => {
           {selectedMilestone && (
             <Card className="bg-white rounded-xl p-5 mb-6 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl text-green-800 font-semibold">
+                <CardTitle className="text-xl text-primary font-semibold">
                   {selectedMilestone.title}
                 </CardTitle>
                 <CardDescription className="text-gray-600">
@@ -207,12 +207,12 @@ const MilestoneTrackingScreen = () => {
                 {/* Progress Bar */}
                 <View className="mb-4">
                   <View className="h-2 bg-gray-200 rounded overflow-hidden">
-                    <View 
-                      className="h-full bg-green-500 rounded transition-all duration-1000"
+                    <View
+                      className="h-full bg-primary rounded transition-all duration-1000"
                       style={{ width: `${selectedMilestone.progress}%` }}
                     />
                   </View>
-                  <UIText className="text-sm text-green-600 font-semibold mt-2 text-center">
+                  <UIText className="text-sm text-primary font-semibold mt-2 text-center">
                     {selectedMilestone.progress}% Complete
                   </UIText>
                 </View>
@@ -237,7 +237,7 @@ const MilestoneTrackingScreen = () => {
                   
                   <View className="flex-row justify-between">
                     <UIText className="text-gray-600">Progress:</UIText>
-                    <UIText className="text-green-600 font-semibold">
+                    <UIText className="text-primary font-semibold">
                       {selectedMilestone.progress}%
                     </UIText>
                   </View>
@@ -250,7 +250,7 @@ const MilestoneTrackingScreen = () => {
           {availableRewards.length > 0 && (
             <Card className="bg-white rounded-xl p-5 mb-6 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl text-green-800 font-semibold">
+                <CardTitle className="text-xl text-primary font-semibold">
                   Available Rewards
                 </CardTitle>
                 <CardDescription className="text-gray-600">
@@ -260,16 +260,16 @@ const MilestoneTrackingScreen = () => {
               <CardContent>
                 <View className="space-y-3">
                   {availableRewards.map((reward, index) => (
-                    <View key={index} className="flex-row justify-between items-center p-3 bg-green-50 rounded-lg">
+                    <View key={index} className="flex-row justify-between items-center p-3 bg-primary/10 rounded-lg">
                       <View>
-                        <UIText className="font-semibold text-green-800">
+                        <UIText className="font-semibold text-primary">
                           {reward.milestoneTitle}
                         </UIText>
                         <UIText className="text-sm text-gray-600">
                           Milestone ID: {reward.milestoneId}
                         </UIText>
                       </View>
-                      <UIText className="text-green-600 font-bold">
+                      <UIText className="text-primary font-bold">
                         {reward.rewardAmount} ETH
                       </UIText>
                     </View>
@@ -283,7 +283,7 @@ const MilestoneTrackingScreen = () => {
           {availableRewards.length > 0 && (
             <Card className="bg-white rounded-xl p-5 mb-6 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl text-green-800 font-semibold">
+                <CardTitle className="text-xl text-primary font-semibold">
                   Withdraw Rewards
                 </CardTitle>
                 <CardDescription className="text-gray-600">

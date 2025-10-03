@@ -66,7 +66,7 @@ const ProfileSettingsScreen = () => {
         <View className={`px-5 pt-10 pb-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
           <View className="flex-row items-center justify-between mb-6">
             <Pressable className="flex-row items-center">
-              <ArrowLeft size={24} color="#065f46" />
+              <ArrowLeft size={24} className="text-teal-700" />
               <UIText className="text-primary font-semibold ml-2">Back</UIText>
             </Pressable>
           </View>
@@ -91,7 +91,7 @@ const ProfileSettingsScreen = () => {
                 >
                   <View className="flex-row items-center flex-1">
                     <View className={`w-10 h-10 ${option.color} rounded-full items-center justify-center mr-4`}>
-                      <option.icon size={20} color="#ffffff" />
+                      <option.icon size={20} className="text-white" />
                     </View>
                     <View className="flex-1">
                       <UIText className="text-lg text-primary font-semibold mb-1">
@@ -102,7 +102,7 @@ const ProfileSettingsScreen = () => {
                       </UIText>
                     </View>
                   </View>
-                  <ChevronRight size={20} color="#6b7280" />
+                  <ChevronRight size={20} className="text-gray-500" />
                 </Pressable>
               </Card>
             ))}

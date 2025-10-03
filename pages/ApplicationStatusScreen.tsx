@@ -1,11 +1,11 @@
-import { CheckCircle, Clock, ArrowLeft } from 'lucide-react-native';
+import { CheckCircle, Clock } from 'lucide-react-native';
 import { useEffect, useRef } from 'react';
-import { Animated, Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
-import { Button } from '../src/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/components/ui/card';
-import { Text as UIText } from '../src/components/ui/text';
+import { Animated, SafeAreaView, ScrollView, View } from 'react-native';
 import { Badge } from '../src/components/ui/badge';
+import { Button } from '../src/components/ui/button';
+import { Card, CardContent } from '../src/components/ui/card';
 import { Progress } from '../src/components/ui/progress';
+import { Text as UIText } from '../src/components/ui/text';
 
 const ApplicationStatusScreen = () => {
   // Animation values
@@ -36,231 +36,113 @@ const ApplicationStatusScreen = () => {
     }).start();
   }, []);
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: '#d1fae5' }}>
+    <SafeAreaView className="flex-1">
+      <View className="flex-1 bg-green-50">
         {/* Header */}
-        <Animated.View 
-          style={{ 
-            alignItems: 'center', 
-            paddingTop: 40,
-            paddingBottom: 40,
+        <Animated.View
+          className="items-center pt-10 pb-10"
+          style={{
             opacity: fadeAnim,
             transform: [{ translateY: slideAnim }]
           }}
         >
-          <Text style={{ 
-            fontSize: 24, 
-            fontWeight: '700', 
-            color: '#065f46'
-          }}>
-            Application Status Page
-          </Text>
+          <UIText className="text-2xl font-bold text-primary">
+            Application Status
+          </UIText>
         </Animated.View>
 
         {/* Status Sections */}
-        <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
+        <ScrollView className="px-5">
           {/* First Review Section */}
-          <View style={{ 
-            backgroundColor: '#ffffff',
-            borderRadius: 12,
-            padding: 20,
-            marginBottom: 20,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 3
-          }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
-              <View style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                backgroundColor: '#38a3a5',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 16
-              }}>
-                <CheckCircle size={20} color="#ffffff" />
+          <Card className="mb-5 bg-white border-0 shadow-lg">
+            <CardContent className="p-5">
+              <View className="flex-row items-center mb-4">
+                <View className="w-10 h-10 bg-primary rounded-full items-center justify-center mr-4">
+                  <CheckCircle size={20} className="text-white" />
+                </View>
+                <View className="flex-1">
+                  <UIText className="text-lg font-semibold text-primary mb-1">
+                    Review
+                  </UIText>
+                  <UIText className="text-sm text-muted-foreground">
+                    Initial application review completed
+                  </UIText>
+                </View>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{
-                  fontSize: 18,
-                  color: '#22577a',
-                  fontWeight: '600',
-                  marginBottom: 4
-                }}>
-                  Review
-                </Text>
-                <Text style={{
-                  fontSize: 14,
-                  color: '#6b7280'
-                }}>
-                  Initial application review completed
-                </Text>
+
+              {/* Progress Lines */}
+              <View className="ml-14">
+                <View className="h-0.5 bg-gray-200 mb-2" />
+                <View className="h-0.5 bg-gray-200 mb-2" />
+                <View className="h-0.5 bg-gray-200" />
               </View>
-            </View>
-            
-            {/* Progress Lines */}
-            <View style={{ marginLeft: 56 }}>
-              <View style={{
-                height: 2,
-                backgroundColor: '#e5e7eb',
-                marginBottom: 8
-              }} />
-              <View style={{
-                height: 2,
-                backgroundColor: '#e5e7eb',
-                marginBottom: 8
-              }} />
-              <View style={{
-                height: 2,
-                backgroundColor: '#e5e7eb'
-              }} />
-            </View>
-          </View>
+            </CardContent>
+          </Card>
 
           {/* Second Review Section */}
-          <View style={{ 
-            backgroundColor: '#ffffff',
-            borderRadius: 12,
-            padding: 20,
-            marginBottom: 20,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 3
-          }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
-              <View style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                backgroundColor: '#10b981',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 16
-              }}>
-                <CheckCircle size={20} color="#ffffff" />
+          <Card className="mb-5 bg-white border-0 shadow-lg">
+            <CardContent className="p-5">
+              <View className="flex-row items-center mb-4">
+                <View className="w-10 h-10 bg-green-600 rounded-full items-center justify-center mr-4">
+                  <CheckCircle size={20} className="text-white" />
+                </View>
+                <View className="flex-1">
+                  <UIText className="text-lg font-semibold text-primary mb-1">
+                    Review
+                  </UIText>
+                  <UIText className="text-sm text-muted-foreground">
+                    Technical assessment in progress
+                  </UIText>
+                </View>
+                <Badge className="bg-green-600">
+                  <UIText className="text-white text-sm font-semibold">
+                    80%
+                  </UIText>
+                </Badge>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{
-                  fontSize: 18,
-                  color: '#065f46',
-                  fontWeight: '600',
-                  marginBottom: 4
-                }}>
-                  Review
-                </Text>
-                <Text style={{
-                  fontSize: 14,
-                  color: '#6b7280'
-                }}>
-                  Technical assessment in progress
-                </Text>
+
+              {/* Progress Bar */}
+              <View className="ml-14">
+                <Progress value={80} className="h-2" />
               </View>
-              <View style={{
-                backgroundColor: '#10b981',
-                paddingHorizontal: 12,
-                paddingVertical: 6,
-                borderRadius: 16
-              }}>
-                <Text style={{
-                  color: '#ffffff',
-                  fontSize: 14,
-                  fontWeight: '600'
-                }}>
-                  80%
-                </Text>
-              </View>
-            </View>
-          </View>
+            </CardContent>
+          </Card>
 
           {/* Scouting Section */}
-          <View style={{ 
-            backgroundColor: '#ffffff',
-            borderRadius: 12,
-            padding: 20,
-            marginBottom: 20,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 3
-          }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
-              <View style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                backgroundColor: '#f59e0b',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 16
-              }}>
-                <Clock size={20} color="#ffffff" />
+          <Card className="mb-5 bg-white border-0 shadow-lg">
+            <CardContent className="p-5">
+              <View className="flex-row items-center mb-4">
+                <View className="w-10 h-10 bg-amber-500 rounded-full items-center justify-center mr-4">
+                  <Clock size={20} className="text-white" />
+                </View>
+                <View className="flex-1">
+                  <UIText className="text-lg font-semibold text-primary mb-1">
+                    Scouting
+                  </UIText>
+                  <UIText className="text-sm text-muted-foreground">
+                    Market research and validation
+                  </UIText>
+                </View>
+                <Badge className="bg-amber-500">
+                  <UIText className="text-white text-sm font-semibold">
+                    Pending
+                  </UIText>
+                </Badge>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{
-                  fontSize: 18,
-                  color: '#065f46',
-                  fontWeight: '600',
-                  marginBottom: 4
-                }}>
-                  Scouting
-                </Text>
-                <Text style={{
-                  fontSize: 14,
-                  color: '#6b7280'
-                }}>
-                  Market research and validation
-                </Text>
-              </View>
-              <View style={{
-                backgroundColor: '#f59e0b',
-                paddingHorizontal: 12,
-                paddingVertical: 6,
-                borderRadius: 16
-              }}>
-                <Text style={{
-                  color: '#ffffff',
-                  fontSize: 14,
-                  fontWeight: '600'
-                }}>
-                  Pending
-                </Text>
-              </View>
-            </View>
-          </View>
+            </CardContent>
+          </Card>
         </ScrollView>
 
         {/* Submit Application Button */}
-        <View style={{ 
-          position: 'absolute', 
-          bottom: 40, 
-          left: 20, 
-          right: 20 
-        }}>
-          <Pressable style={{
-                          backgroundColor: '#22577a',
-            paddingVertical: 16,
-            borderRadius: 12,
-            alignItems: 'center',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 3
-          }}>
-            <Text style={{
-              color: '#ffffff',
-              fontSize: 18,
-              fontWeight: '600'
-            }}>
+        <View className="absolute bottom-10 left-5 right-5">
+          <Button
+            className="h-14 rounded-xl shadow-lg bg-primary"
+            size="lg"
+          >
+            <UIText className="text-white font-bold text-lg">
               Submit Application
-            </Text>
-          </Pressable>
+            </UIText>
+          </Button>
         </View>
       </View>
     </SafeAreaView>

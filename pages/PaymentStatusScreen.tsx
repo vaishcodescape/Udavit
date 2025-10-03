@@ -126,8 +126,8 @@ const PaymentStatusScreen = () => {
     return (
       <SafeAreaView className="flex-1">
         <View className="flex-1 bg-slate-900 justify-center items-center">
-          <RefreshCw size={48} color="#38a3a5" className="animate-spin" />
-          <Text className="text-lg text-slate-300 mt-4">Loading Payment Interface...</Text>
+          <RefreshCw size={48} className="animate-spin text-teal-500" />
+          <UIText className="text-lg text-slate-300 mt-4">Loading Payment Interface...</UIText>
         </View>
       </SafeAreaView>
     );
@@ -146,26 +146,26 @@ const PaymentStatusScreen = () => {
         >
           <View className="flex-row items-center justify-between">
             <Button
-              variant="plain"
+              variant="secondary"
               size="icon"
               onPress={() => navigation.goBack()}
               className="bg-slate-700 hover:bg-slate-600"
             >
-              <ArrowLeft size={24} color="#ffffff" />
+              <ArrowLeft size={24} className="text-white" />
             </Button>
             
-            <Text className="text-xl font-bold text-white">
+            <UIText className="text-xl font-bold text-white">
               Payment Interface
-            </Text>
+            </UIText>
             
             <Button
-              variant="plain"
+              variant="secondary"
               size="icon"
               onPress={handleRefresh}
               disabled={isRefreshing}
               className="bg-slate-700 hover:bg-slate-600"
             >
-              <RefreshCw size={20} color="#ffffff" className={isRefreshing ? 'animate-spin' : ''} />
+              <RefreshCw size={20} className={`text-white ${isRefreshing ? 'animate-spin' : ''}`} />
             </Button>
           </View>
         </Animated.View>
@@ -180,16 +180,16 @@ const PaymentStatusScreen = () => {
             ].map((tab) => (
               <Button
                 key={tab.key}
-                variant="plain"
+                variant="secondary"
                 size="sm"
                 onPress={() => setActiveTab(tab.key as any)}
                 className={`flex-1 py-3 ${activeTab === tab.key ? 'border-b-2 border-teal-400' : ''}`}
               >
-                <Text className={`text-sm font-medium ${
+                <UIText className={`text-sm font-medium ${
                   activeTab === tab.key ? 'text-teal-400' : 'text-slate-400'
                 }`}>
                   {tab.label}
-                </Text>
+                </UIText>
               </Button>
             ))}
           </View>
@@ -217,49 +217,49 @@ const PaymentStatusScreen = () => {
                 <CardHeader>
                   <View className="flex-row items-center justify-between">
                     <View className="flex-row items-center">
-                      <Wallet size={24} color="#38a3a5" />
-                      <Text className="text-white text-lg font-bold ml-3">
+                      <Wallet size={24} className="text-teal-500" />
+                      <UIText className="text-white text-lg font-bold ml-3">
                         Your Wallet
-                      </Text>
+                      </UIText>
                     </View>
                     <Badge variant="secondary" className="bg-teal-500/20 border-teal-500/30">
-                      <Text className="text-teal-400 text-xs font-medium">
+                      <UIText className="text-teal-400 text-xs font-medium">
                         {walletInfo?.network?.toUpperCase() || 'SEPOLIA'}
-                      </Text>
+                      </UIText>
                     </Badge>
                   </View>
                 </CardHeader>
                 
                 <CardContent>
-                  <Text className="text-4xl font-bold text-white mb-4">
+                  <UIText className="text-4xl font-bold text-white mb-4">
                     {walletInfo?.balance || '0.00'} ETH
-                  </Text>
+                  </UIText>
                   
                   <View className="flex-row items-center bg-slate-700/50 rounded-lg px-4 py-3 border border-slate-600">
-                    <Text className="flex-1 text-slate-300 text-sm font-mono">
-                      {showWalletAddress 
+                    <UIText className="flex-1 text-slate-300 text-sm font-mono">
+                      {showWalletAddress
                         ? walletInfo?.address || '0x...'
                         : `${walletInfo?.address?.substring(0, 6)}...${walletInfo?.address?.substring(-4)}`
                       }
-                    </Text>
+                    </UIText>
                     <Button
-                      variant="plain"
+                      variant="secondary"
                       size="sm"
                       onPress={() => setShowWalletAddress(!showWalletAddress)}
                       className="mr-2 bg-slate-600 hover:bg-slate-500"
                     >
                       {showWalletAddress ? 
-                        <EyeOff size={16} color="#94a3b8" /> : 
-                        <Eye size={16} color="#94a3b8" />
+                        <EyeOff size={16} className="text-slate-400" /> :
+                        <Eye size={16} className="text-slate-400" />
                       }
                     </Button>
                     <Button
-                      variant="plain"
+                      variant="secondary"
                       size="sm"
                       onPress={copyWalletAddress}
                       className="bg-slate-600 hover:bg-slate-500"
                     >
-                      <Copy size={16} color="#94a3b8" />
+                      <Copy size={16} className="text-slate-400" />
                     </Button>
                   </View>
                 </CardContent>
@@ -271,10 +271,10 @@ const PaymentStatusScreen = () => {
                   <CardHeader>
                     <CardTitle>
                       <View className="flex-row items-center">
-                        <CreditCard size={20} color="#38a3a5" />
-                        <Text className="text-lg font-bold text-white ml-3">
+                        <CreditCard size={20} className="text-teal-500" />
+                        <UIText className="text-lg font-bold text-white ml-3">
                           Smart Contract Status
-                        </Text>
+                        </UIText>
                       </View>
                     </CardTitle>
                   </CardHeader>
@@ -282,32 +282,32 @@ const PaymentStatusScreen = () => {
                   <CardContent>
                     <View className="space-y-4">
                       <View className="flex-row justify-between items-center">
-                        <Text className="text-sm text-slate-400">Contract Address:</Text>
-                        <Text className="text-sm font-mono text-teal-400">
+                        <UIText className="text-sm text-slate-400">Contract Address:</UIText>
+                        <UIText className="text-sm font-mono text-teal-400">
                           {contractInfo.contractAddress.substring(0, 10)}...
-                        </Text>
+                        </UIText>
                       </View>
                       
                       <View className="flex-row justify-between items-center">
-                        <Text className="text-sm text-slate-400">Total Allocated:</Text>
-                        <Text className="text-sm font-semibold text-white">
+                        <UIText className="text-sm text-slate-400">Total Allocated:</UIText>
+                        <UIText className="text-sm font-semibold text-white">
                           {contractInfo.totalAllocated} ETH
-                        </Text>
+                        </UIText>
                       </View>
                       
                       <View className="flex-row justify-between items-center">
-                        <Text className="text-sm text-slate-400">Available Balance:</Text>
-                        <Text className="text-sm font-semibold text-teal-400">
+                        <UIText className="text-sm text-slate-400">Available Balance:</UIText>
+                        <UIText className="text-sm font-semibold text-teal-400">
                           {contractInfo.availableBalance} ETH
-                        </Text>
+                        </UIText>
                       </View>
                       
                       <View className="flex-row justify-between items-center">
-                        <Text className="text-sm text-slate-400">Contract Version:</Text>
+                        <UIText className="text-sm text-slate-400">Contract Version:</UIText>
                         <Badge variant="outline" className="border-teal-500/30">
-                          <Text className="text-xs font-medium text-teal-400">
+                          <UIText className="text-xs font-medium text-teal-400">
                             v{contractInfo.contractVersion}
-                          </Text>
+                          </UIText>
                         </Badge>
                       </View>
                     </View>
@@ -320,10 +320,10 @@ const PaymentStatusScreen = () => {
                 <CardHeader>
                   <CardTitle>
                     <View className="flex-row items-center">
-                      <CreditCard size={20} color="#38a3a5" />
-                      <Text className="text-lg font-bold text-white ml-3">
+                      <CreditCard size={20} className="text-teal-500" />
+                      <UIText className="text-lg font-bold text-white ml-3">
                         Payment Methods
-                      </Text>
+                      </UIText>
                     </View>
                   </CardTitle>
                 </CardHeader>
@@ -333,16 +333,16 @@ const PaymentStatusScreen = () => {
                     {paymentMethods.map((method) => (
                       <View key={method.id} className="flex-row items-center justify-between p-4 bg-slate-700/50 rounded-lg border border-slate-600">
                         <View className="flex-row items-center">
-                          <Text className="text-2xl mr-3">{method.icon}</Text>
+                          <UIText className="text-2xl mr-3">{method.icon}</UIText>
                           <View>
-                            <Text className="text-sm font-semibold text-white">{method.name}</Text>
-                            <Text className="text-xs text-slate-400">{method.type.replace('_', ' ')}</Text>
+                            <UIText className="text-sm font-semibold text-white">{method.name}</UIText>
+                            <UIText className="text-xs text-slate-400">{method.type.replace('_', ' ')}</UIText>
                           </View>
                         </View>
-                        <Badge variant={method.isEnabled ? "success" : "secondary"} className={method.isEnabled ? "bg-green-500/20 border-green-500/30" : "bg-slate-500/20 border-slate-500/30"}>
-                          <Text className={`text-xs font-medium ${method.isEnabled ? 'text-green-400' : 'text-slate-400'}`}>
+                        <Badge variant={method.isEnabled ? "default" : "secondary"} className={method.isEnabled ? "bg-green-500/20 border-green-500/30" : "bg-slate-500/20 border-slate-500/30"}>
+                          <UIText className={`text-xs font-medium ${method.isEnabled ? 'text-green-400' : 'text-slate-400'}`}>
                             {method.isEnabled ? 'Active' : 'Inactive'}
-                          </Text>
+                          </UIText>
                         </Badge>
                       </View>
                     ))}
@@ -355,10 +355,10 @@ const PaymentStatusScreen = () => {
                 <CardHeader>
                   <CardTitle>
                     <View className="flex-row items-center">
-                      <Banknote size={20} color="#38a3a5" />
-                      <Text className="text-lg font-bold text-white ml-3">
+                      <Banknote size={20} className="text-teal-500" />
+                      <UIText className="text-lg font-bold text-white ml-3">
                         Bank Accounts
-                      </Text>
+                      </UIText>
                     </View>
                   </CardTitle>
                 </CardHeader>
@@ -368,31 +368,31 @@ const PaymentStatusScreen = () => {
                     {bankAccounts.map((account) => (
                       <View key={account.id} className="p-4 bg-slate-700/50 rounded-lg border border-slate-600">
                         <View className="flex-row items-center justify-between mb-2">
-                          <Text className="text-sm font-semibold text-white">{account.bankName}</Text>
+                          <UIText className="text-sm font-semibold text-white">{account.bankName}</UIText>
                           {account.isDefault && (
-                            <Badge variant="success" size="sm" className="bg-teal-500/20 border-teal-500/30">
-                              <Text className="text-xs font-medium text-teal-400">Default</Text>
+                            <Badge variant="default" className="bg-teal-500/20 border-teal-500/30">
+                              <UIText className="text-xs font-medium text-teal-400">Default</UIText>
                             </Badge>
                           )}
                         </View>
-                        <Text className="text-xs text-slate-400 mb-1">
+                        <UIText className="text-xs text-slate-400 mb-1">
                           {account.accountHolderName}
-                        </Text>
-                        <Text className="text-xs font-mono text-slate-300">
+                        </UIText>
+                        <UIText className="text-xs font-mono text-slate-300">
                           {account.accountNumber} • {account.ifscCode}
-                        </Text>
+                        </UIText>
                       </View>
                     ))}
                     <Button
-                      variant="tonal"
+                      variant="secondary"
                       size="sm"
                       onPress={() => Alert.alert('Coming Soon', 'Add bank account functionality will be available soon')}
                       className="mt-3 bg-slate-700/50 border-slate-600 hover:bg-slate-600/50"
                     >
-                      <Plus size={16} color="#38a3a5" />
-                      <Text className="text-teal-400 font-medium ml-2">
+                      <Plus size={16} className="text-teal-500" />
+                      <UIText className="text-teal-400 font-medium ml-2">
                         Add Bank Account
-                      </Text>
+                      </UIText>
                     </Button>
                   </View>
                 </CardContent>
@@ -402,24 +402,24 @@ const PaymentStatusScreen = () => {
               <Card className="bg-slate-800 border-slate-600 mb-6">
                 <CardHeader>
                   <CardTitle>
-                    <Text className="text-lg font-bold text-white">
+                    <UIText className="text-lg font-bold text-white">
                       Quick Actions
-                    </Text>
+                    </UIText>
                   </CardTitle>
                 </CardHeader>
                 
                 <CardContent>
                   <View className="space-y-3">
                     <Button
-                      variant="tonal"
+                      variant="secondary"
                       size="lg"
                       onPress={() => navigation.navigate('MilestoneTracking')}
                       className="bg-teal-500/10 border-teal-500/30 hover:bg-teal-500/20 justify-start"
                     >
-                      <ArrowUpRight size={20} color="#38a3a5" />
-                      <Text className="text-teal-400 font-semibold ml-3">
+                      <ArrowUpRight size={20} className="text-teal-500" />
+                      <UIText className="text-teal-400 font-semibold ml-3">
                         Withdraw Available Rewards
-                      </Text>
+                      </UIText>
                     </Button>
                     
                     <Button
@@ -428,10 +428,10 @@ const PaymentStatusScreen = () => {
                       onPress={() => Alert.alert('Coming Soon', 'Gas fee estimation will be available soon')}
                       className="justify-start bg-slate-700/50 border-slate-600 hover:bg-slate-600/50"
                     >
-                      <Clock size={20} color="#94a3b8" />
-                      <Text className="text-slate-300 font-semibold ml-3">
+                      <Clock size={20} className="text-slate-400" />
+                      <UIText className="text-slate-300 font-semibold ml-3">
                         Estimate Gas Fees
-                      </Text>
+                      </UIText>
                     </Button>
                   </View>
                 </CardContent>
@@ -443,9 +443,9 @@ const PaymentStatusScreen = () => {
           {activeTab === 'history' && (
             <View className="px-6 py-6">
               {/* Blockchain Withdrawals */}
-              <Text className="text-xl font-bold text-white mb-4">
+              <UIText className="text-xl font-bold text-white mb-4">
                 Blockchain Transactions
-              </Text>
+              </UIText>
               
               {withdrawalHistory.length > 0 ? (
                 withdrawalHistory.map((transaction) => (
@@ -453,31 +453,30 @@ const PaymentStatusScreen = () => {
                     <CardContent className="py-4">
                       <View className="flex-row justify-between items-start">
                         <View className="flex-1">
-                          <Text className="text-base font-semibold text-white">
+                          <UIText className="text-base font-semibold text-white">
                             {transaction.milestoneTitle}
-                          </Text>
-                          <Text className="text-xs text-slate-400 mt-1">
+                          </UIText>
+                          <UIText className="text-xs text-slate-400 mt-1">
                             {new Date(transaction.timestamp).toLocaleString()}
-                          </Text>
-                          <Text className="text-xs text-slate-500 font-mono mt-1">
+                          </UIText>
+                          <UIText className="text-xs text-slate-500 font-mono mt-1">
                             {transaction.transactionHash.substring(0, 20)}...
-                          </Text>
+                          </UIText>
                         </View>
                         
                         <View className="items-end">
-                          <Text className={`text-lg font-bold ${
+                          <UIText className={`text-lg font-bold ${
                             transaction.status === 'confirmed' ? 'text-green-400' : 
                             transaction.status === 'pending' ? 'text-amber-400' : 'text-red-400'
                           }`}>
                             {transaction.amount} ETH
-                          </Text>
+                          </UIText>
                           
                           <Badge 
                             variant={
-                              transaction.status === 'confirmed' ? 'success' :
-                              transaction.status === 'pending' ? 'warning' : 'destructive'
+                              transaction.status === 'confirmed' ? 'default' :
+                              transaction.status === 'pending' ? 'secondary' : 'destructive'
                             }
-                            size="sm"
                             className={`mt-1 ${
                               transaction.status === 'confirmed' ? 'bg-green-500/20 border-green-500/30' :
                               transaction.status === 'pending' ? 'bg-amber-500/20 border-amber-500/30' :
@@ -485,19 +484,19 @@ const PaymentStatusScreen = () => {
                             }`}
                           >
                             <View className="flex-row items-center">
-                              {transaction.status === 'confirmed' && <Check size={10} color="#ffffff" />}
-                              {transaction.status === 'pending' && <Clock size={10} color="#ffffff" />}
-                              {transaction.status === 'failed' && <X size={10} color="#ffffff" />}
-                              <Text className="text-xs font-medium text-white ml-1">
+                              {transaction.status === 'confirmed' && <Check size={10} className="text-white" />}
+                              {transaction.status === 'pending' && <Clock size={10} className="text-white" />}
+                              {transaction.status === 'failed' && <X size={10} className="text-white" />}
+                              <UIText className="text-xs font-medium text-white ml-1">
                                 {transaction.status.toUpperCase()}
-                              </Text>
+                              </UIText>
                             </View>
                           </Badge>
                           
                           {transaction.confirmations > 0 && (
-                            <Text className="text-xs text-slate-400 mt-1">
+                            <UIText className="text-xs text-slate-400 mt-1">
                               {transaction.confirmations} confirmations
-                            </Text>
+                            </UIText>
                           )}
                         </View>
                       </View>
@@ -507,21 +506,21 @@ const PaymentStatusScreen = () => {
               ) : (
                 <Card className="bg-slate-800 border-slate-600 mb-5">
                   <CardContent className="items-center py-10">
-                    <CreditCard size={48} color="#475569" />
-                    <Text className="text-base text-slate-400 mt-4 text-center">
+                    <CreditCard size={48} className="text-slate-500" />
+                    <UIText className="text-base text-slate-400 mt-4 text-center">
                       No blockchain transactions yet
-                    </Text>
-                    <Text className="text-sm text-slate-500 mt-2 text-center">
+                    </UIText>
+                    <UIText className="text-sm text-slate-500 mt-2 text-center">
                       Complete milestones to start earning ETH rewards
-                    </Text>
+                    </UIText>
                   </CardContent>
                 </Card>
               )}
 
               {/* Payment History */}
-              <Text className="text-xl font-bold text-white mb-4 mt-6">
+              <UIText className="text-xl font-bold text-white mb-4 mt-6">
                 Payment History
-              </Text>
+              </UIText>
               
               {paymentHistory.length > 0 ? (
                 paymentHistory.map((payment) => (
@@ -529,41 +528,40 @@ const PaymentStatusScreen = () => {
                     <CardContent className="py-4">
                       <View className="flex-row justify-between items-start">
                         <View className="flex-1">
-                          <Text className="text-base font-semibold text-white">
+                          <UIText className="text-base font-semibold text-white">
                             {payment.description}
-                          </Text>
-                          <Text className="text-xs text-slate-400 mt-1">
+                          </UIText>
+                          <UIText className="text-xs text-slate-400 mt-1">
                             {new Date(payment.timestamp).toLocaleString()}
-                          </Text>
-                          <Text className="text-xs text-slate-300 mt-1">
+                          </UIText>
+                          <UIText className="text-xs text-slate-300 mt-1">
                             {payment.paymentMethod}
-                          </Text>
+                          </UIText>
                           {payment.bankReference && (
-                            <Text className="text-xs text-slate-500 font-mono mt-1">
+                            <UIText className="text-xs text-slate-500 font-mono mt-1">
                               Ref: {payment.bankReference}
-                            </Text>
+                            </UIText>
                           )}
                           {payment.transactionHash && (
-                            <Text className="text-xs text-slate-500 font-mono mt-1">
+                            <UIText className="text-xs text-slate-500 font-mono mt-1">
                               TX: {payment.transactionHash.substring(0, 20)}...
-                            </Text>
+                            </UIText>
                           )}
                         </View>
                         
                         <View className="items-end">
-                          <Text className={`text-lg font-bold ${
+                          <UIText className={`text-lg font-bold ${
                             payment.status === 'completed' ? 'text-green-400' : 
                             payment.status === 'pending' ? 'text-amber-400' : 'text-red-400'
                           }`}>
                             {payment.amount} {payment.currency}
-                          </Text>
+                          </UIText>
                           
                           <Badge 
                             variant={
-                              payment.status === 'completed' ? 'success' :
-                              payment.status === 'pending' ? 'warning' : 'destructive'
+                              payment.status === 'completed' ? 'default' :
+                              payment.status === 'pending' ? 'secondary' : 'destructive'
                             }
-                            size="sm"
                             className={`mt-1 ${
                               payment.status === 'completed' ? 'bg-green-500/20 border-green-500/30' :
                               payment.status === 'pending' ? 'bg-amber-500/20 border-amber-500/30' :
@@ -571,12 +569,12 @@ const PaymentStatusScreen = () => {
                             }`}
                           >
                             <View className="flex-row items-center">
-                              {payment.status === 'completed' && <Check size={10} color="#ffffff" />}
-                              {payment.status === 'pending' && <Clock size={10} color="#ffffff" />}
-                              {payment.status === 'failed' && <X size={10} color="#ffffff" />}
-                              <Text className="text-xs font-medium text-white ml-1">
+                              {payment.status === 'completed' && <Check size={10} className="text-white" />}
+                              {payment.status === 'pending' && <Clock size={10} className="text-white" />}
+                              {payment.status === 'failed' && <X size={10} className="text-white" />}
+                              <UIText className="text-xs font-medium text-white ml-1">
                                 {payment.status.toUpperCase()}
-                              </Text>
+                              </UIText>
                             </View>
                           </Badge>
                         </View>
@@ -587,13 +585,13 @@ const PaymentStatusScreen = () => {
               ) : (
                 <Card className="bg-slate-800 border-slate-600">
                   <CardContent className="items-center py-10">
-                    <CreditCard size={48} color="#475569" />
-                    <Text className="text-base text-slate-400 mt-4 text-center">
+                    <CreditCard size={48} className="text-slate-500" />
+                    <UIText className="text-base text-slate-400 mt-4 text-center">
                       No payment history yet
-                    </Text>
-                    <Text className="text-sm text-slate-500 mt-2 text-center">
+                    </UIText>
+                    <UIText className="text-sm text-slate-500 mt-2 text-center">
                       Make your first payment to see it here
-                    </Text>
+                    </UIText>
                   </CardContent>
                 </Card>
               )}
@@ -603,25 +601,25 @@ const PaymentStatusScreen = () => {
           {/* Settings Tab */}
           {activeTab === 'settings' && (
             <View className="px-6 py-6">
-              <Text className="text-xl font-bold text-white mb-4">
+              <UIText className="text-xl font-bold text-white mb-4">
                 Payment Settings
-              </Text>
+              </UIText>
               
               <Card className="bg-slate-800 border-slate-600 mb-4">
                 <CardHeader>
                   <CardTitle>
-                    <Text className="text-lg font-semibold text-white">
+                    <UIText className="text-lg font-semibold text-white">
                       Wallet Configuration
-                    </Text>
+                    </UIText>
                   </CardTitle>
                 </CardHeader>
                 
                 <CardContent>
                   <View className="space-y-4">
                     <View>
-                      <Text className="text-sm font-medium text-slate-300 mb-2">
+                      <UIText className="text-sm font-medium text-slate-300 mb-2">
                         Default Wallet Address
-                      </Text>
+                      </UIText>
                       <Input
                         value={walletInfo?.address || ''}
                         placeholder="0x..."
@@ -631,13 +629,13 @@ const PaymentStatusScreen = () => {
                     </View>
                     
                     <View>
-                      <Text className="text-sm font-medium text-slate-300 mb-2">
+                      <UIText className="text-sm font-medium text-slate-300 mb-2">
                         Network
-                      </Text>
+                      </UIText>
                       <Badge variant="outline" className="self-start border-teal-500/30">
-                        <Text className="text-sm font-medium text-teal-400">
+                        <UIText className="text-sm font-medium text-teal-400">
                           {walletInfo?.network?.toUpperCase() || 'SEPOLIA TESTNET'}
-                        </Text>
+                        </UIText>
                       </Badge>
                     </View>
                   </View>
@@ -647,48 +645,48 @@ const PaymentStatusScreen = () => {
               <Card className="bg-slate-800 border-slate-600 mb-4">
                 <CardHeader>
                   <CardTitle>
-                    <Text className="text-lg font-semibold text-white">
+                    <UIText className="text-lg font-semibold text-white">
                       Payment Preferences
-                    </Text>
+                    </UIText>
                   </CardTitle>
                 </CardHeader>
                 
                 <CardContent>
                   <View className="space-y-4">
                     <View>
-                      <Text className="text-sm font-medium text-slate-300 mb-2">
+                      <UIText className="text-sm font-medium text-slate-300 mb-2">
                         Default Payment Method
-                      </Text>
+                      </UIText>
                       <View className="flex-row items-center justify-between p-3 bg-slate-700/50 rounded-lg border border-slate-600">
-                        <Text className="text-sm text-white">
+                        <UIText className="text-sm text-white">
                           {paymentMethods.find(m => m.isEnabled)?.name || 'None selected'}
-                        </Text>
+                        </UIText>
                         <Button
                           variant="secondary"
                           size="sm"
                           onPress={() => Alert.alert('Coming Soon', 'Payment method selection will be available soon')}
                           className="bg-slate-600 hover:bg-slate-500"
                         >
-                          <Text className="text-xs font-medium text-white">Change</Text>
+                          <UIText className="text-xs font-medium text-white">Change</UIText>
                         </Button>
                       </View>
                     </View>
                     
                     <View>
-                      <Text className="text-sm font-medium text-slate-300 mb-2">
+                      <UIText className="text-sm font-medium text-slate-300 mb-2">
                         Default Bank Account
-                      </Text>
+                      </UIText>
                       <View className="flex-row items-center justify-between p-3 bg-slate-700/50 rounded-lg border border-slate-600">
-                        <Text className="text-sm text-white">
+                        <UIText className="text-sm text-white">
                           {bankAccounts.find(a => a.isDefault)?.bankName || 'None selected'}
-                        </Text>
+                        </UIText>
                         <Button
                           variant="secondary"
                           size="sm"
                           onPress={() => Alert.alert('Coming Soon', 'Bank account selection will be available soon')}
                           className="bg-slate-600 hover:bg-slate-500"
                         >
-                          <Text className="text-xs font-medium text-white">Change</Text>
+                          <UIText className="text-xs font-medium text-white">Change</UIText>
                         </Button>
                       </View>
                     </View>
@@ -699,9 +697,9 @@ const PaymentStatusScreen = () => {
               <Card className="bg-slate-800 border-slate-600">
                 <CardHeader>
                   <CardTitle>
-                    <Text className="text-lg font-semibold text-white">
+                    <UIText className="text-lg font-semibold text-white">
                       Security & Support
-                    </Text>
+                    </UIText>
                   </CardTitle>
                 </CardHeader>
                 
@@ -709,26 +707,26 @@ const PaymentStatusScreen = () => {
                   <View className="space-y-3">
                     <Button
                       variant="secondary"
-                      size="md"
+                      size="default"
                       onPress={() => Alert.alert('Help', 'Contact support at support@udavit.com')}
                       className="justify-start bg-slate-700/50 border-slate-600 hover:bg-slate-600/50"
                     >
-                      <ExternalLink size={16} color="#94a3b8" />
-                      <Text className="text-slate-300 font-medium ml-3">
+                      <ExternalLink size={16} className="text-slate-400" />
+                      <UIText className="text-slate-300 font-medium ml-3">
                         Contact Support
-                      </Text>
+                      </UIText>
                     </Button>
                     
                     <Button
                       variant="secondary"
-                      size="md"
+                      size="default"
                       onPress={() => Alert.alert('Documentation', 'Visit our documentation for more details')}
                       className="justify-start bg-slate-700/50 border-slate-600 hover:bg-slate-600/50"
                     >
-                      <ExternalLink size={16} color="#94a3b8" />
-                      <Text className="text-slate-300 font-medium ml-3">
+                      <ExternalLink size={16} className="text-slate-400" />
+                      <UIText className="text-slate-300 font-medium ml-3">
                         View Documentation
-                      </Text>
+                      </UIText>
                     </Button>
                   </View>
                 </CardContent>

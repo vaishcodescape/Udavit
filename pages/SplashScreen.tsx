@@ -34,7 +34,7 @@ const SplashScreen = () => {
         <View className={`items-center transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
           {/* Logo Circle */}
           <View className="w-32 h-32 bg-white/20 rounded-full items-center justify-center mb-8 shadow-2xl">
-            <Leaf size={64} color="#ffffff" />
+            <Leaf size={64} className="text-white" />
           </View>
           
           {/* App Name */}

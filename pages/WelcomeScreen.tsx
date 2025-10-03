@@ -1,16 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { LinearGradient } from 'expo-linear-gradient';
 import { ArrowRight, Leaf, Sparkles } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, useWindowDimensions, View } from 'react-native';
 import { RootStackParamList } from '../App';
 import { Badge } from '../src/components/ui/badge';
 import { Button } from '../src/components/ui/button';
 import { Card, CardContent } from '../src/components/ui/card';
 import { Text as UIText } from '../src/components/ui/text';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = useWindowDimensions();
 
 const WelcomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -33,24 +32,10 @@ const WelcomeScreen = () => {
     <SafeAreaView className="flex-1">
       <View className="flex-1 relative overflow-hidden">
         {/* Background Gradient */}
-        <LinearGradient
-          colors={['#34d399', '#6ee7b7', '#5eead4']}
-          locations={[0, 0.5, 1]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          className="absolute inset-0"
-        />
-        
+        <View className="absolute inset-0 bg-gradient-to-br from-green-400 via-green-300 to-teal-300" />
+
         {/* Overlay Gradient */}
-        <View className={`absolute inset-0 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <LinearGradient
-            colors={['rgba(5, 150, 105, 0.3)', 'transparent', 'rgba(52, 211, 153, 0.2)']}
-            locations={[0, 0.5, 1]}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 0, y: 0 }}
-            className="flex-1"
-          />
-        </View>
+        <View className={`absolute inset-0 transition-all duration-1000 bg-gradient-to-t from-emerald-600/30 via-transparent to-green-400/20 ${isVisible ? 'opacity-100' : 'opacity-0'}`} />
 
         {/* Floating Elements */}
         <View className={`absolute top-20 left-8 w-16 h-16 bg-white/10 rounded-full transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`} />
@@ -60,12 +45,11 @@ const WelcomeScreen = () => {
 
         {/* Main Content */}
         <ScrollView
-          className="flex-1"
+          className="flex-1 px-6"
           contentContainerStyle={{
             flexGrow: 1,
             justifyContent: 'center',
-            alignItems: 'center',
-            paddingHorizontal: 24
+            alignItems: 'center'
           }}
           showsVerticalScrollIndicator={false}
         >
@@ -73,7 +57,7 @@ const WelcomeScreen = () => {
             {/* Logo */}
             <View className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
               <View className="items-center justify-center w-30 h-30 rounded-full bg-white/15 border-2 border-white/20 shadow-2xl">
-                <Leaf size={60} color="#ffffff" />
+                <Leaf size={60} className="text-white" />
               </View>
             </View>
 
@@ -87,7 +71,7 @@ const WelcomeScreen = () => {
             {/* Subtitle */}
             <View className={`mb-8 items-center transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
               <Badge variant="secondary" className="bg-white/20 border-white/30 mb-3">
-                <Sparkles size={16} color="#ffffff" />
+                <Sparkles size={16} className="text-white" />
                 <UIText className="text-white font-semibold ml-1">Hydrogen Innovation Platform</UIText>
               </Badge>
               <UIText variant="lead" className="text-white/90 text-center font-medium">
@@ -105,7 +89,7 @@ const WelcomeScreen = () => {
                       <UIText className="text-white/80 text-sm">Automated funding for hydrogen projects</UIText>
                     </View>
                     <View className="w-12 h-12 bg-white/20 rounded-full items-center justify-center">
-                      <Leaf size={24} color="#ffffff" />
+                      <Leaf size={24} className="text-white" />
                     </View>
                   </View>
                 </CardContent>
@@ -120,7 +104,7 @@ const WelcomeScreen = () => {
                 size="lg"
               >
                 <UIText className="text-primary font-bold text-lg">Get Started</UIText>
-                <ArrowRight size={20} color="#22577a" />
+                <ArrowRight size={20} className="text-primary" />
               </Button>
             </View>
           </View>

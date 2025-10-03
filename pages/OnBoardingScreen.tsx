@@ -17,22 +17,22 @@ const OnBoardingScreen = () => {
   // Step data
   const steps = [
     {
-      icon: <Zap size={40} color="#ffffff" />,
+      icon: <Zap size={40} color="white" />,
       title: "Apply for Subsidies Easily",
       description: "Streamlined application process for hydrogen and chemical industry projects",
-      color: "#10b981"
+      color: "green-500"
     },
     {
-      icon: <CheckCircle size={40} color="#ffffff" />,
+      icon: <CheckCircle size={40} color="white" />,
       title: "Track Milestones in Real-Time",
       description: "Monitor your project progress with intelligent milestone tracking",
-      color: "#38a3a5"
+      color: "teal-500"
     },
     {
-      icon: <Star size={40} color="#ffffff" />,
+      icon: <Star size={40} color="white" />,
       title: "AI-Powered Project Feedback",
       description: "Get intelligent insights and recommendations for your projects",
-      color: "#22577a"
+      color: "teal-700"
     }
   ];
 
@@ -140,9 +140,9 @@ const OnBoardingScreen = () => {
                 {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
               </UIText>
               {currentStep === steps.length - 1 ? (
-                <ArrowRight size={20} color="#ffffff" />
+                <ArrowRight size={20} color="white" />
               ) : (
-                <ChevronRight size={20} color="#ffffff" />
+                <ChevronRight size={20} color="white" />
               )}
             </Button>
           </View>

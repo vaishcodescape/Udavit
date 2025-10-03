@@ -2,12 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AlertCircle, ArrowLeft, Bell, CheckCircle, FileText, Info, Lock, Settings, User } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Animated, Pressable, SafeAreaView, ScrollView, View } from 'react-native';
 import { RootStackParamList } from '../App';
 import { Button } from '../src/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/components/ui/card';
+import { Card, CardContent } from '../src/components/ui/card';
 import { Text as UIText } from '../src/components/ui/text';
-import { Badge } from '../src/components/ui/badge';
 
 const NotificationsCenterScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -59,21 +58,21 @@ const NotificationsCenterScreen = () => {
       id: 1,
       title: 'Edit Startup Details',
       icon: User,
-      color: '#10b981',
+      color: 'green-500',
       onPress: () => navigation.navigate('ProfileSettings')
     },
     {
       id: 2,
       title: 'Manage KYC Documents',
       icon: FileText,
-      color: '#f59e0b',
+      color: 'amber-500',
       onPress: () => navigation.navigate('ProfileSettings')
     },
     {
       id: 3,
       title: 'Change Password',
       icon: Lock,
-      color: '#ef4444',
+      color: 'red-500',
       onPress: () => navigation.navigate('ProfileSettings')
     }
   ]);
@@ -104,69 +103,61 @@ const NotificationsCenterScreen = () => {
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return <CheckCircle size={20} color="#10b981" />;
+        return <CheckCircle size={20} className="text-green-600" />;
       case 'warning':
-        return <AlertCircle size={20} color="#f59e0b" />;
+        return <AlertCircle size={20} className="text-amber-600" />;
       case 'info':
-        return <Info size={20} color="#3b82f6" />;
+        return <Info size={20} className="text-blue-600" />;
       default:
-        return <Bell size={20} color="#6b7280" />;
+        return <Bell size={20} className="text-gray-500" />;
     }
   };
 
   const getNotificationColor = (type: string) => {
     switch (type) {
       case 'success':
-        return '#10b981';
+        return 'green-600';
       case 'warning':
-        return '#f59e0b';
+        return 'amber-600';
       case 'info':
-        return '#3b82f6';
+        return 'blue-600';
       default:
-        return '#6b7280';
+        return 'gray-500';
     }
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: '#065f46' }}>
+    <SafeAreaView className="flex-1">
+      <View className="flex-1 bg-teal-700">
         {/* Header */}
-        <Animated.View 
-          style={{ 
-            flexDirection: 'row', 
-            alignItems: 'center', 
-            paddingHorizontal: 20,
-            paddingTop: 20,
-            paddingBottom: 20,
+        <Animated.View
+          className="flex-row items-center px-5 pt-5 pb-5"
+          style={{
             opacity: fadeAnim,
             transform: [{ translateY: slideAnim }]
           }}
         >
-          <Pressable 
+          <Pressable
             onPress={() => navigation.goBack()}
-            style={{ marginRight: 20 }}
+            className="mr-5"
           >
-            <ArrowLeft size={24} color="#ffffff" />
+            <ArrowLeft size={24} className="text-white" />
           </Pressable>
-          
-          <Text style={{ 
-            fontSize: 20, 
-            fontWeight: '600', 
-            color: '#ffffff'
-          }}>
+
+          <UIText className="text-xl font-semibold text-white">
             Notifications Center
-          </Text>
+          </UIText>
         </Animated.View>
 
         {/* Content */}
-        <ScrollView 
-          style={{ flex: 1, paddingHorizontal: 20 }}
+        <ScrollView
+          className="flex-1 px-5"
           showsVerticalScrollIndicator={false}
         >
           {/* Quick Actions */}
-          <Animated.View 
-            style={{ 
-              marginBottom: 24,
+          <Animated.View
+            className="mb-6"
+            style={{
               opacity: staggerAnim,
               transform: [{ translateY: staggerAnim.interpolate({
                 inputRange: [0, 1],
@@ -174,68 +165,36 @@ const NotificationsCenterScreen = () => {
               })}]
             }}
           >
-            <Text style={{
-              fontSize: 18,
-              fontWeight: '600',
-              color: '#ffffff',
-              marginBottom: 16
-            }}>
+            <UIText className="text-lg font-semibold text-white mb-4">
               Quick Actions
-            </Text>
+            </UIText>
             
             {settingsOptions.map((option, index) => (
-              <Pressable
-                key={option.id}
-                onPress={option.onPress}
-                style={{
-                  backgroundColor: '#ffffff',
-                  borderRadius: 12,
-                  padding: 16,
-                  marginBottom: 12,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 4,
-                  elevation: 3
-                }}
-              >
-                <View style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  backgroundColor: `${option.color}20`,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginRight: 16
-                }}>
-                  <option.icon size={20} color={option.color} />
-                </View>
-                
-                <Text style={{
-                  fontSize: 16,
-                  fontWeight: '500',
-                  color: '#065f46',
-                  flex: 1
-                }}>
-                  {option.title}
-                </Text>
-                
-                <View style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 4,
-                  backgroundColor: option.color
-                }} />
-              </Pressable>
+              <Card key={option.id} className="mb-3 bg-white border-0 shadow-lg">
+                <CardContent className="p-4">
+                  <Pressable
+                    onPress={option.onPress}
+                    className="flex-row items-center"
+                  >
+                    <View className={`w-10 h-10 bg-${option.color}/20 rounded-full items-center justify-center mr-4`}>
+                      <option.icon size={20} className={`text-${option.color}`} />
+                    </View>
+
+                    <UIText className="text-base font-medium text-primary flex-1">
+                      {option.title}
+                    </UIText>
+
+                    <View className={`w-2 h-2 bg-${option.color} rounded-full`} />
+                  </Pressable>
+                </CardContent>
+              </Card>
             ))}
           </Animated.View>
 
           {/* Recent Notifications */}
-          <Animated.View 
-            style={{ 
-              marginBottom: 24,
+          <Animated.View
+            className="mb-6"
+            style={{
               opacity: staggerAnim,
               transform: [{ translateY: staggerAnim.interpolate({
                 inputRange: [0, 1],
@@ -243,88 +202,47 @@ const NotificationsCenterScreen = () => {
               })}]
             }}
           >
-            <Text style={{
-              fontSize: 18,
-              fontWeight: '600',
-              color: '#ffffff',
-              marginBottom: 16
-            }}>
+            <UIText className="text-lg font-semibold text-white mb-4">
               Recent Notifications
-            </Text>
+            </UIText>
             
             {notifications.map((notification, index) => (
-              <View key={notification.id} style={{
-                backgroundColor: '#ffffff',
-                borderRadius: 12,
-                padding: 16,
-                marginBottom: 12,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 4,
-                elevation: 3,
-                borderLeftWidth: 4,
-                borderLeftColor: getNotificationColor(notification.type)
-              }}>
-                <View style={{
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
-                  marginBottom: 8
-                }}>
-                  <View style={{ marginRight: 12, marginTop: 2 }}>
-                    {getNotificationIcon(notification.type)}
-                  </View>
-                  
-                  <View style={{ flex: 1 }}>
-                    <Text style={{
-                      fontSize: 16,
-                      fontWeight: '600',
-                      color: '#065f46',
-                      marginBottom: 4
-                    }}>
-                      {notification.title}
-                    </Text>
-                    
-                    <Text style={{
-                      fontSize: 14,
-                      color: '#6b7280',
-                      lineHeight: 20,
-                      marginBottom: 8
-                    }}>
-                      {notification.message}
-                    </Text>
-                    
-                    <View style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}>
-                      <Text style={{
-                        fontSize: 12,
-                        color: '#9ca3af'
-                      }}>
-                        {notification.time}
-                      </Text>
-                      
-                      {!notification.read && (
-                        <View style={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: 4,
-                          backgroundColor: getNotificationColor(notification.type)
-                        }} />
-                      )}
+              <Card key={notification.id} className={`mb-3 bg-white border-0 shadow-lg border-l-4 border-l-${getNotificationColor(notification.type)}`}>
+                <CardContent className="p-4">
+                  <View className="flex-row items-start">
+                    <View className="mr-3 mt-0.5">
+                      {getNotificationIcon(notification.type)}
+                    </View>
+
+                    <View className="flex-1">
+                      <UIText className="text-base font-semibold text-primary mb-1">
+                        {notification.title}
+                      </UIText>
+
+                      <UIText className="text-sm text-gray-600 leading-5 mb-2">
+                        {notification.message}
+                      </UIText>
+
+                      <View className="flex-row justify-between items-center">
+                        <UIText className="text-xs text-gray-500">
+                          {notification.time}
+                        </UIText>
+
+                        {!notification.read && (
+                          <View className={`w-2 h-2 bg-${getNotificationColor(notification.type)} rounded-full`} />
+                        )}
+                      </View>
                     </View>
                   </View>
-                </View>
-              </View>
+                </CardContent>
+              </Card>
             ))}
           </Animated.View>
 
           {/* Notification Settings */}
-          <Animated.View 
-            style={{ 
-              marginBottom: 40,
+          <Animated.View
+            className="mb-10"
+            style={{
               opacity: staggerAnim,
               transform: [{ translateY: staggerAnim.interpolate({
                 inputRange: [0, 1],
@@ -332,60 +250,29 @@ const NotificationsCenterScreen = () => {
               })}]
             }}
           >
-            <View style={{
-              backgroundColor: '#ffffff',
-              borderRadius: 16,
-              padding: 20,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 8,
-              elevation: 3
-            }}>
-              <View style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: 16
-              }}>
-                <Settings size={20} color="#065f46" />
-                <Text style={{
-                  fontSize: 18,
-                  fontWeight: '600',
-                  color: '#065f46',
-                  marginLeft: 8
-                }}>
-                  Notification Preferences
-                </Text>
-              </View>
-              
-              <Text style={{
-                fontSize: 14,
-                color: '#6b7280',
-                lineHeight: 20,
-                marginBottom: 16
-              }}>
-                Customize how you receive notifications about your applications, milestones, and funding updates.
-              </Text>
-              
-              <Pressable
-                onPress={() => navigation.navigate('ProfileSettings')}
-                style={{
-                  backgroundColor: '#065f46',
-                  paddingVertical: 12,
-                  paddingHorizontal: 20,
-                  borderRadius: 8,
-                  alignSelf: 'flex-start'
-                }}
-              >
-                <Text style={{
-                  color: '#ffffff',
-                  fontSize: 14,
-                  fontWeight: '500'
-                }}>
-                  Configure Settings
-                </Text>
-              </Pressable>
-            </View>
+            <Card className="bg-white border-0 shadow-lg">
+              <CardContent className="p-5">
+                <View className="flex-row items-center mb-4">
+                  <Settings size={20} className="text-teal-700 mr-2" />
+                  <UIText className="text-lg font-semibold text-primary">
+                    Notification Preferences
+                  </UIText>
+                </View>
+
+                <UIText className="text-sm text-gray-600 leading-5 mb-4">
+                  Customize how you receive notifications about your applications, milestones, and funding updates.
+                </UIText>
+
+                <Button
+                  onPress={() => navigation.navigate('ProfileSettings')}
+                  className="bg-teal-700 self-start"
+                >
+                  <UIText className="text-white font-medium">
+                    Configure Settings
+                  </UIText>
+                </Button>
+              </CardContent>
+            </Card>
           </Animated.View>
         </ScrollView>
       </View>
